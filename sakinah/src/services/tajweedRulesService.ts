@@ -1,26 +1,26 @@
 import { supabase } from '@/config/supabase';
 import { TajweedRule } from '@/types';
 
+// Cache for rules to avoid repeated database queries
+let rulesCache: TajweedRule[] | null = null;
+let cacheTimestamp: number = 0;
+const CACHE_DURATION: number = 1000 * 60 * 60; // 1 hour
+
 /**
  * Tajweed Rules Service - Manages Quranic Tajweed rules database
  * Provides access to authentic Tajweed rules from reliable sources
  */
 export const tajweedRulesService = {
-  // Cache for rules to avoid repeated database queries
-  private rulesCache: TajweedRule[] | null = null,
-  private cacheTimestamp: number = 0,
-  private CACHE_DURATION: number = 1000 * 60 * 60, // 1 hour
-
   /**
    * Get all Tajweed rules with caching
    */
   async getTajweedRules(): Promise<TajweedRule[]> {
     // Return cached rules if still valid
     if (
-      this.rulesCache &&
-      Date.now() - this.cacheTimestamp < this.CACHE_DURATION
+      rulesCache &&
+      Date.now() - cacheTimestamp < CACHE_DURATION
     ) {
-      return this.rulesCache;
+      return rulesCache;
     }
 
     const { data, error } = await supabase
@@ -37,12 +37,12 @@ export const tajweedRulesService = {
 
     if (!data || data.length === 0) {
       // Initialize default rules if table is empty
-      return this.initializeDefaultRules();
+      return tajweedRulesService.initializeDefaultRules();
     }
 
     // Cache the rules
-    this.rulesCache = data;
-    this.cacheTimestamp = Date.now();
+    rulesCache = data;
+    cacheTimestamp = Date.now();
 
     return data;
   },
@@ -51,7 +51,7 @@ export const tajweedRulesService = {
    * Get Tajweed rules by category
    */
   async getTajweedRulesByCategory(category: string): Promise<TajweedRule[]> {
-    const allRules = await this.getTajweedRules();
+    const allRules = await tajweedRulesService.getTajweedRules();
     return allRules.filter((rule) => rule.category === category);
   },
 
