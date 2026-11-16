@@ -22,30 +22,17 @@ export default function RecordPage() {
     );
   }
 
-  const handleRecordSuccess = () => {
-    // Navigate back or to list screen
-    router.back();
-  };
-
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.content} edges={['bottom', 'left', 'right']}>
-        <RecordScreen projectId={projectId} onRecordSuccess={handleRecordSuccess} />
+        <RecordScreen projectId={projectId} onRecordSuccess={() => router.back()} />
       </SafeAreaView>
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-  },
-  error: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  container: { flex: 1 },
+  content: { flex: 1 },
+  error: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 });
