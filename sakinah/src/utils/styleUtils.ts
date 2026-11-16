@@ -59,7 +59,7 @@ export const getFlexStyles = (
     | 'space-evenly' = 'center',
   gap?: keyof typeof theme.spacing | number
 ): ViewStyle => {
-  const styles: ViewStyle = {
+  const styles: any = {
     flexDirection: direction,
     alignItems: align,
     justifyContent: justify,
@@ -81,7 +81,7 @@ export const getBorderStyles = (
   borderColor?: string,
   borderWidth: number = 1
 ): ViewStyle => {
-  const styles: ViewStyle = {
+  const styles: any = {
     borderWidth,
   };
 
@@ -105,7 +105,7 @@ export const getShadowStyles = (
 ): ViewStyle => {
   if (!shadowSize || shadowSize === 'none') return {};
 
-  const shadow = theme.shadows[shadowSize];
+  const shadow = theme.shadows[shadowSize] as any;
   if (shadow === 'none') return {};
 
   return shadow as ViewStyle;
@@ -120,7 +120,7 @@ export const getTextStyles = (
   lineHeight?: keyof typeof theme.typography.lineHeight | number,
   rtl: boolean = false
 ): TextStyle => {
-  const styles: TextStyle = {};
+  const styles: any = {};
 
   if (fontSize) {
     const fontSizeValue = typeof fontSize === 'number' ? fontSize : theme.typography.fontSize[fontSize];

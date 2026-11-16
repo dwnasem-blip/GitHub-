@@ -164,7 +164,12 @@ export const recitationAnalysisAPI = {
     }>
   > {
     try {
-      const audio = await referenceAudioService.getReferenceAudio(params);
+      const audio = await referenceAudioService.getReferenceAudio({
+        surah_number: params.surahNumber,
+        verse_number: params.verseNumber,
+        word_number: params.wordNumber,
+        reader_id: params.readerId,
+      });
       return {
         success: true,
         data: audio,
@@ -206,11 +211,11 @@ export const recitationAnalysisAPI = {
    */
   async getAvailableReaders(): Promise<
     ApiResponse<
-      Array<{
+      {
         id: string;
         name: string;
         description?: string;
-      }>
+      }[]
     >
   > {
     try {
@@ -253,10 +258,7 @@ export const recitationAnalysisAPI = {
     }
   },
 
-  /**
-   * Validate analysis input
-   */
-  private validateAnalysisInput(params: {
+  validateAnalysisInput(params: {
     projectId: string;
     audioFileId: string;
     audioUrl: string;
@@ -310,7 +312,7 @@ export const recitationAnalysisAPI = {
    * Perform the actual analysis (placeholder implementation)
    * This should be replaced with actual audio processing logic
    */
-  private async performAnalysis(
+  async performAnalysis(
     params: {
       audioUrl: string;
       surahNumber: number;
@@ -371,7 +373,7 @@ export const recitationAnalysisAPI = {
           findings: review.findings,
           error:
             review.status === 'failed'
-              ? review.final_report?.error
+              ? (review.final_report as any)?.error
               : undefined,
         },
       };

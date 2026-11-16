@@ -21,7 +21,7 @@ export const Container = React.forwardRef<View, ContainerProps>(
   ({ maxWidth, padding, paddingHorizontal, paddingVertical, fullWidth = true, centered = false, rtl = false, style, children, ...props }, ref) => {
     const { theme: themeObj } = useTheme();
     const getPaddingValue = (p?: keyof typeof themeObj.spacing | number): number | undefined => (p === undefined ? undefined : typeof p === 'number' ? p : themeObj.spacing[p]);
-    const paddingStyles: ViewStyle = {};
+    const paddingStyles: any = {};
     if (padding !== undefined) {
       const p = getPaddingValue(padding);
       if (p) { paddingStyles.paddingHorizontal = p; paddingStyles.paddingVertical = p; }

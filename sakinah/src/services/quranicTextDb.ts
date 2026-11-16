@@ -338,7 +338,7 @@ export async function getReferenceAudioUrl(
 /**
  * List available Qari (reciters) for reference
  */
-export async function getAvailableRecitors(): Promise<Array<{ id: number; name: string }>> {
+export async function getAvailableRecitors(): Promise<{ id: number; name: string }[]> {
   try {
     const response = await fetch('https://api.quran.com/api/v4/recitations');
 

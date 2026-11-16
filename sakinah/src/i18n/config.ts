@@ -1,4 +1,5 @@
 import i18n from 'i18next';
+// @ts-ignore
 import { I18nextPlugin } from 'i18next-react-native';
 import ar from './ar.json';
 import en from './en.json';

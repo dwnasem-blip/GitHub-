@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Button = React.forwardRef<Pressable, ButtonProps>(
+export const Button = React.forwardRef<any, ButtonProps>(
   (
     {
       variant = 'primary',
@@ -137,8 +137,8 @@ export const Button = React.forwardRef<Pressable, ButtonProps>(
       styles.base,
       getSizeStyles(),
       getVariantStyles(),
-      disabled && styles.disabled,
-      fullWidth && styles.fullWidth,
+      disabled ? styles.disabled : {},
+      fullWidth ? styles.fullWidth : {},
       getShadowStyles(size === 'lg' ? 'md' : 'sm'),
       style
     ) as ViewStyle;

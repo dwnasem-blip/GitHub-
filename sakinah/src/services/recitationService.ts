@@ -4,8 +4,7 @@ import {
   Finding,
   RecitationReviewData,
   VerseMatch,
-} from '@/types';
-import { ApiResponse } from '@/types';
+ ApiResponse } from '@/types';
 
 class RecitationService {
   /**

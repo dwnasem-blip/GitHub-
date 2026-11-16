@@ -40,17 +40,7 @@ const styles = StyleSheet.create({
 });
 
 export const TabBar = React.forwardRef<View, TabBarProps>(
-  (
-    {
-      rtl = false,
-      backgroundColor,
-      borderTopColor,
-      style,
-      children,
-      ...props
-    },
-    ref
-  ) => {
+  ({ rtl = false, backgroundColor, borderTopColor, style, children, ...props }, ref) => {
     const { theme: themeObj } = useTheme();
 
     const containerStyle = mergeStyles(
@@ -70,34 +60,12 @@ export const TabBar = React.forwardRef<View, TabBarProps>(
     );
   }
 );
-
 TabBar.displayName = 'TabBar';
 
 export const TabBarItem = React.forwardRef<Pressable, TabBarItemProps>(
-  (
-    {
-      label,
-      icon,
-      badge,
-      active = false,
-      rtl = false,
-      style,
-      ...props
-    },
-    ref
-  ) => {
+  ({ label, icon, badge, active = false, rtl = false, style, ...props }, ref) => {
     const { theme: themeObj } = useTheme();
-
-    const itemStyle = mergeStyles(
-      styles.itemContainer,
-      {
-        opacity: active ? 1 : 0.6,
-        borderBottomWidth: active ? 2 : 0,
-        borderBottomColor: active ? themeObj.colors.accent.main : 'transparent',
-      },
-      style
-    ) as ViewStyle;
-
+    const itemStyle = mergeStyles(styles.itemContainer, { opacity: active ? 1 : 0.6, borderBottomWidth: active ? 2 : 0, borderBottomColor: active ? themeObj.colors.accent.main : 'transparent' }, style) as any;
     return (
       <Pressable ref={ref} {...props} style={({ pressed }) => [itemStyle, pressed && { opacity: 0.5 }]}>
         <View style={{ flexDirection: rtl ? 'row-reverse' : 'row', alignItems: 'center', gap: themeObj.spacing[1] }}>
@@ -110,5 +78,4 @@ export const TabBarItem = React.forwardRef<Pressable, TabBarItemProps>(
     );
   }
 );
-
 TabBarItem.displayName = 'TabBarItem';

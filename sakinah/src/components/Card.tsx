@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Card = React.forwardRef<View, CardProps>(
+export const Card = React.forwardRef<any, CardProps>(
   (
     {
       padding,
@@ -63,40 +63,46 @@ export const Card = React.forwardRef<View, CardProps>(
       return typeof p === 'number' ? p : themeObj.spacing[p];
     };
 
-    const paddingStyles: ViewStyle = {};
+    const buildPaddingStyles = (): ViewStyle => {
+      const styles: Record<string, number> = {};
 
-    if (padding !== undefined) {
-      const p = getPaddingValue(padding);
-      if (p) {
-        paddingStyles.paddingHorizontal = p;
-        paddingStyles.paddingVertical = p;
+      if (padding !== undefined) {
+        const p = getPaddingValue(padding);
+        if (p) {
+          styles.paddingHorizontal = p;
+          styles.paddingVertical = p;
+        }
+      } else {
+        if (paddingHorizontal !== undefined) {
+          const p = getPaddingValue(paddingHorizontal);
+          if (p) styles.paddingHorizontal = p;
+        }
+        if (paddingVertical !== undefined) {
+          const p = getPaddingValue(paddingVertical);
+          if (p) styles.paddingVertical = p;
+        }
+        if (paddingTop !== undefined) {
+          const p = getPaddingValue(paddingTop);
+          if (p) styles.paddingTop = p;
+        }
+        if (paddingBottom !== undefined) {
+          const p = getPaddingValue(paddingBottom);
+          if (p) styles.paddingBottom = p;
+        }
+        if (paddingLeft !== undefined) {
+          const p = getPaddingValue(paddingLeft);
+          if (p) styles.paddingLeft = p;
+        }
+        if (paddingRight !== undefined) {
+          const p = getPaddingValue(paddingRight);
+          if (p) styles.paddingRight = p;
+        }
       }
-    } else {
-      if (paddingHorizontal !== undefined) {
-        const p = getPaddingValue(paddingHorizontal);
-        if (p) paddingStyles.paddingHorizontal = p;
-      }
-      if (paddingVertical !== undefined) {
-        const p = getPaddingValue(paddingVertical);
-        if (p) paddingStyles.paddingVertical = p;
-      }
-      if (paddingTop !== undefined) {
-        const p = getPaddingValue(paddingTop);
-        if (p) paddingStyles.paddingTop = p;
-      }
-      if (paddingBottom !== undefined) {
-        const p = getPaddingValue(paddingBottom);
-        if (p) paddingStyles.paddingBottom = p;
-      }
-      if (paddingLeft !== undefined) {
-        const p = getPaddingValue(paddingLeft);
-        if (p) paddingStyles.paddingLeft = p;
-      }
-      if (paddingRight !== undefined) {
-        const p = getPaddingValue(paddingRight);
-        if (p) paddingStyles.paddingRight = p;
-      }
-    }
+
+      return styles as ViewStyle;
+    };
+
+    const paddingStyles = buildPaddingStyles();
 
     const radiusValue = typeof radius === 'number' ? radius : themeObj.radius[radius];
 
