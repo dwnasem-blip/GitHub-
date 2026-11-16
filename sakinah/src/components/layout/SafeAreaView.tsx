@@ -13,58 +13,16 @@ export interface SafeAreaViewProps extends ViewProps {
   style?: ViewStyle;
 }
 
-const styles = StyleSheet.create({
-  base: {
-    flex: 1,
-  },
-});
+const styles = StyleSheet.create({ base: { flex: 1 } });
 
 export const SafeAreaView = React.forwardRef<View, SafeAreaViewProps>(
-  (
-    {
-      paddingHorizontal = true,
-      paddingVertical = true,
-      paddingTop = true,
-      paddingBottom = true,
-      customPaddingHorizontal,
-      customPaddingVertical,
-      rtl = false,
-      style,
-      children,
-      ...props
-    },
-    ref
-  ) => {
+  ({ paddingHorizontal = true, paddingVertical = true, paddingTop = true, paddingBottom = true, customPaddingHorizontal, customPaddingVertical, rtl = false, style, children, ...props }, ref) => {
     const insets = useSafeAreaInsets();
-
     const safeAreaStyle: ViewStyle = {};
-
-    if (paddingHorizontal) {
-      safeAreaStyle.paddingLeft = customPaddingHorizontal || insets.left;
-      safeAreaStyle.paddingRight = customPaddingHorizontal || insets.right;
-    }
-
-    if (paddingVertical) {
-      if (paddingTop) {
-        safeAreaStyle.paddingTop = customPaddingVertical || insets.top;
-      }
-      if (paddingBottom) {
-        safeAreaStyle.paddingBottom = customPaddingVertical || insets.bottom;
-      }
-    }
-
-    const containerStyle = mergeStyles(
-      styles.base,
-      safeAreaStyle,
-      style
-    ) as ViewStyle;
-
-    return (
-      <View ref={ref} {...props} style={containerStyle}>
-        {children}
-      </View>
-    );
+    if (paddingHorizontal) { safeAreaStyle.paddingLeft = customPaddingHorizontal || insets.left; safeAreaStyle.paddingRight = customPaddingHorizontal || insets.right; }
+    if (paddingVertical) { if (paddingTop) safeAreaStyle.paddingTop = customPaddingVertical || insets.top; if (paddingBottom) safeAreaStyle.paddingBottom = customPaddingVertical || insets.bottom; }
+    const containerStyle = mergeStyles(styles.base, safeAreaStyle, style) as ViewStyle;
+    return <View ref={ref} {...props} style={containerStyle}>{children}</View>;
   }
 );
-
 SafeAreaView.displayName = 'SafeAreaView';

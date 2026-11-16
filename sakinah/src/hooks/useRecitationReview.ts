@@ -64,10 +64,6 @@ interface UseRecitationReviewActions {
   clearError: () => void;
 }
 
-/**
- * useRecitationReview - React hook for Quranic recitation analysis
- * Provides state management and API integration for recitation reviews
- */
 export const useRecitationReview = (): UseRecitationReviewState &
   UseRecitationReviewActions => {
   const [state, setState] = useState<UseRecitationReviewState>({
@@ -80,9 +76,6 @@ export const useRecitationReview = (): UseRecitationReviewState &
     success: false,
   });
 
-  /**
-   * Update state with error handling
-   */
   const updateState = useCallback(
     (updates: Partial<UseRecitationReviewState>) => {
       setState((prev) => ({ ...prev, ...updates }));
@@ -90,9 +83,6 @@ export const useRecitationReview = (): UseRecitationReviewState &
     []
   );
 
-  /**
-   * Analyze a recitation recording
-   */
   const analyzeRecitation = useCallback(
     async (params: {
       projectId: string;
@@ -138,9 +128,6 @@ export const useRecitationReview = (): UseRecitationReviewState &
     [updateState]
   );
 
-  /**
-   * Get a specific recitation review
-   */
   const getRecitationReview = useCallback(
     async (id: string): Promise<RecitationReview | null> => {
       updateState({ loading: true, error: null });
@@ -172,9 +159,6 @@ export const useRecitationReview = (): UseRecitationReviewState &
     [updateState]
   );
 
-  /**
-   * List recitation reviews for a project
-   */
   const listRecitationReviews = useCallback(
     async (projectId: string): Promise<RecitationReview[]> => {
       updateState({ loading: true, error: null });
@@ -206,9 +190,6 @@ export const useRecitationReview = (): UseRecitationReviewState &
     [updateState]
   );
 
-  /**
-   * Delete a recitation review
-   */
   const deleteRecitationReview = useCallback(
     async (id: string): Promise<boolean> => {
       updateState({ loading: true, error: null });
@@ -222,7 +203,6 @@ export const useRecitationReview = (): UseRecitationReviewState &
           throw new Error(response.error || 'Failed to delete review');
         }
 
-        // Remove from reviews list
         updateState((prev) => ({
           ...prev,
           reviews: prev.reviews.filter((r) => r.id !== id),
@@ -244,9 +224,6 @@ export const useRecitationReview = (): UseRecitationReviewState &
     [updateState]
   );
 
-  /**
-   * Get reference audio for a word
-   */
   const getReferenceAudio = useCallback(
     async (params: {
       surahNumber: number;
@@ -276,9 +253,6 @@ export const useRecitationReview = (): UseRecitationReviewState &
     [updateState]
   );
 
-  /**
-   * Get Tajweed rules
-   */
   const getTajweedRules = useCallback(
     async (): Promise<TajweedRule[]> => {
       updateState({ loading: true, error: null });
@@ -311,9 +285,6 @@ export const useRecitationReview = (): UseRecitationReviewState &
     [updateState]
   );
 
-  /**
-   * Get available readers
-   */
   const getAvailableReaders = useCallback(
     async (): Promise<
       Array<{
@@ -338,9 +309,6 @@ export const useRecitationReview = (): UseRecitationReviewState &
     [updateState]
   );
 
-  /**
-   * Get analysis status
-   */
   const getAnalysisStatus = useCallback(
     async (
       analysisId: string
@@ -368,9 +336,6 @@ export const useRecitationReview = (): UseRecitationReviewState &
     [updateState]
   );
 
-  /**
-   * Export analysis report
-   */
   const exportAnalysisReport = useCallback(
     async (reviewId: string, format: 'json' | 'csv' = 'json'): Promise<string | null> => {
       try {
@@ -392,9 +357,6 @@ export const useRecitationReview = (): UseRecitationReviewState &
     [updateState]
   );
 
-  /**
-   * Clear state
-   */
   const clearState = useCallback(() => {
     setState({
       review: null,
@@ -407,17 +369,12 @@ export const useRecitationReview = (): UseRecitationReviewState &
     });
   }, []);
 
-  /**
-   * Clear error
-   */
   const clearError = useCallback(() => {
     updateState({ error: null });
   }, [updateState]);
 
   return {
-    // State
     ...state,
-    // Actions
     analyzeRecitation,
     getRecitationReview,
     listRecitationReviews,
