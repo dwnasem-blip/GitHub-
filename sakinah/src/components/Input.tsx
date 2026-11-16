@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Input = React.forwardRef<TextInput, InputProps>(
+export const Input = React.forwardRef<any, InputProps>(
   (
     {
       variant = 'outlined',
@@ -128,7 +128,7 @@ export const Input = React.forwardRef<TextInput, InputProps>(
       styles.container,
       getSizeStyles(),
       getVariantStyles(),
-      disabled && { opacity: 0.6 },
+      disabled ? { opacity: 0.6 } : {},
       containerStyle
     ) as ViewStyle;
 
@@ -139,7 +139,7 @@ export const Input = React.forwardRef<TextInput, InputProps>(
       },
       inputStyle,
       style
-    ) as TextStyle;
+    ) as any;
 
     const paddingLeft = rtl ? 0 : icon ? themeObj.spacing[2] : 0;
     const paddingRight = rtl ? (icon ? themeObj.spacing[2] : 0) : 0;

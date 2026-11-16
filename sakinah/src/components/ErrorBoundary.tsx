@@ -40,7 +40,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
             <Text color="secondary" size="sm" align="center" style={styles.message}>We encountered an unexpected error. Please try again.</Text>
             {process.env.NODE_ENV === 'development' && (
               <View style={styles.stack}>
-                <Heading level={6} color="error">Error Details:</Heading>
+                <Heading level={6} color="primary">Error Details:</Heading>
                 <Text size="xs" color="tertiary" style={{ fontFamily: 'Courier New' }}>{this.state.error.message}</Text>
               </View>
             )}
@@ -52,4 +52,4 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
     return this.props.children;
   }
 }
-ErrorBoundary.displayName = 'ErrorBoundary';
+(ErrorBoundary as any).displayName = 'ErrorBoundary';
