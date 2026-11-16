@@ -22,15 +22,52 @@ export interface TabBarProps extends ViewProps {
 }
 
 const styles = StyleSheet.create({
+<<<<<<< HEAD
   container: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderTopWidth: 1, backgroundColor: theme.colors.semantic.background.secondary, minHeight: 56 },
   itemContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: theme.spacing[2], gap: theme.spacing[1] },
+=======
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderTopWidth: 1,
+    backgroundColor: theme.colors.semantic.background.secondary,
+    minHeight: 56,
+  },
+  itemContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: theme.spacing[2],
+    gap: theme.spacing[1],
+  },
+>>>>>>> feature/quran-analysis-ui
 });
 
 export const TabBar = React.forwardRef<View, TabBarProps>(
   ({ rtl = false, backgroundColor, borderTopColor, style, children, ...props }, ref) => {
     const { theme: themeObj } = useTheme();
+<<<<<<< HEAD
     const containerStyle = mergeStyles(styles.container, { backgroundColor: backgroundColor || themeObj.colors.semantic.background.secondary, borderTopColor: borderTopColor || themeObj.colors.semantic.border.light, flexDirection: rtl ? 'row-reverse' : 'row' }, style) as ViewStyle;
     return <View ref={ref} {...props} style={containerStyle}>{children}</View>;
+=======
+
+    const containerStyle = mergeStyles(
+      styles.container,
+      {
+        backgroundColor: backgroundColor || themeObj.colors.semantic.background.secondary,
+        borderTopColor: borderTopColor || themeObj.colors.semantic.border.light,
+        flexDirection: rtl ? 'row-reverse' : 'row',
+      },
+      style
+    ) as ViewStyle;
+
+    return (
+      <View ref={ref} {...props} style={containerStyle}>
+        {children}
+      </View>
+    );
+>>>>>>> feature/quran-analysis-ui
   }
 );
 TabBar.displayName = 'TabBar';
@@ -43,7 +80,13 @@ export const TabBarItem = React.forwardRef<Pressable, TabBarItemProps>(
       <Pressable ref={ref} {...props} style={({ pressed }) => [itemStyle, pressed && { opacity: 0.5 }]}>
         <View style={{ flexDirection: rtl ? 'row-reverse' : 'row', alignItems: 'center', gap: themeObj.spacing[1] }}>
           {icon && <View>{icon}</View>}
+<<<<<<< HEAD
           <Text size="sm" weight={active ? 'semibold' : 'normal'} color={active ? 'primary' : 'secondary'}>{label}</Text>
+=======
+          <Text size="sm" weight={active ? 'semibold' : 'normal'} color={active ? 'primary' : 'secondary'}>
+            {label}
+          </Text>
+>>>>>>> feature/quran-analysis-ui
         </View>
       </Pressable>
     );
