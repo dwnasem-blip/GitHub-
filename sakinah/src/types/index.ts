@@ -51,7 +51,11 @@ export interface RecitationMatch {
   surah_name_en: string;
   verses: VerseMatch[];
   confidence: number;
+  overall_accuracy: number;
+  total_words: number;
+  correct_words: number;
   created_at: string;
+  user_id: string;
 }
 
 export interface VerseMatch {
@@ -71,6 +75,54 @@ export interface WordTiming {
   start_time: number;
   end_time: number;
   confidence: number;
+}
+
+// Finding/Analysis Types
+export type ErrorType = 'Makhraj' | 'Tajweed' | 'Timing' | 'Pronunciation' | 'Other';
+export type Severity = 'Error' | 'Probable' | 'Inconclusive';
+export type FindingType = 'All' | 'Makhraj' | 'Tajweed' | 'Timing' | 'Pronunciation';
+export type SortOption = 'timestamp' | 'severity' | 'confidence' | 'type';
+
+export interface TajweedRule {
+  id: string;
+  name: string;
+  name_ar: string;
+  description: string;
+  description_ar: string;
+  examples: string[];
+}
+
+export interface Finding {
+  id: string;
+  recitation_match_id: string;
+  word_id: string;
+  arabic_word: string;
+  transliteration: string;
+  start_time: number;
+  end_time: number;
+  confidence: number;
+  error_type: ErrorType;
+  severity: Severity;
+  expected_pronunciation: string;
+  detected_pronunciation: string;
+  description_ar: string;
+  description_en: string;
+  tajweed_rule?: TajweedRule;
+  reference_audio_timestamp?: number;
+  created_at: string;
+}
+
+export interface FilterOptions {
+  type: FindingType;
+  severity: Severity | null;
+  sortBy: SortOption;
+  searchQuery: string;
+}
+
+export interface RecitationReviewData {
+  recitationMatch: RecitationMatch;
+  findings: Finding[];
+  verses: VerseMatch[];
 }
 
 // Background Types
