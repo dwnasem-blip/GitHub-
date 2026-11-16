@@ -12,8 +12,8 @@ import { useTranslation } from 'react-i18next';
 import { router } from 'expo-router';
 import { useProjects } from '@/hooks/useProjects';
 import { useAppStore } from '@/store/appStore';
-import ThemedText from '@/components/themed-text';
-import ThemedView from '@/components/themed-view';
+import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
 
 export const ProjectsListScreen = () => {
   const { t } = useTranslation();

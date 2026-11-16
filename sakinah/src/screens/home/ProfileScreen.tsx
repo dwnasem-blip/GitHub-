@@ -11,8 +11,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useProfile } from '@/hooks/useProfile';
 import { useAppStore } from '@/store/appStore';
-import ThemedText from '@/components/themed-text';
-import ThemedView from '@/components/themed-view';
+import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
 import { UpdateProfileInput } from '@/services/databaseService';
 
 export const ProfileScreen = () => {

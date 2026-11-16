@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { RecordScreen } from '@/screens/audio/RecordScreen';
 import { ThemedView } from '@/components/themed-view';
+import { ThemedText } from '@/components/themed-text';
 
 export default function RecordPage() {
   const router = useRouter();
