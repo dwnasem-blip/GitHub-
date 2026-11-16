@@ -1,0 +1,14 @@
+{
+  "projectId": "fa583913-61b4-4734-b2f8-f98ff87698d1",
+  "cli": {
+    "version": ">= 5.0.0"
+  },
+  "build": {
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "production": {}
+  }
+}
