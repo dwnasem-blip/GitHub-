@@ -17,7 +17,7 @@ import { Colors, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { useAppStore } from '@/store/appStore';
 import { storageService } from '@/services/storageService';
-import { audioService } from '@/services/audioService';
+import { audioService, AudioService } from '@/services/audioService';
 import { AudioFile } from '@/types/index';
 
 export default function AudioListPage() {

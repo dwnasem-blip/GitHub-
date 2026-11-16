@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { UploadScreen } from '@/screens/audio/UploadScreen';
 import { ThemedView } from '@/components/themed-view';
+import { ThemedText } from '@/components/themed-text';
 
 export default function UploadPage() {
   const router = useRouter();
