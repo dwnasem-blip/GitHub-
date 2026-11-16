@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  View,
-  ViewProps,
-  StyleSheet,
-  ViewStyle,
-} from 'react-native';
+import { View, ViewProps, StyleSheet, ViewStyle } from 'react-native';
 import { useTheme } from '@/theme/useTheme';
 import { theme } from '@/theme';
 
@@ -13,8 +8,6 @@ export interface DividerProps extends ViewProps {
   color?: string;
   thickness?: number;
   margin?: keyof typeof theme.spacing | number;
-  marginHorizontal?: keyof typeof theme.spacing | number;
-  marginVertical?: keyof typeof theme.spacing | number;
   rtl?: boolean;
   style?: ViewStyle;
 }
@@ -37,8 +30,6 @@ export const Divider = React.forwardRef<View, DividerProps>(
       color,
       thickness = 1,
       margin,
-      marginHorizontal,
-      marginVertical,
       rtl = false,
       style,
       ...props
@@ -53,21 +44,11 @@ export const Divider = React.forwardRef<View, DividerProps>(
     };
 
     const marginStyles: ViewStyle = {};
-
     if (margin !== undefined) {
       const m = getMarginValue(margin);
       if (m) {
         marginStyles.marginHorizontal = m;
         marginStyles.marginVertical = m;
-      }
-    } else {
-      if (marginHorizontal !== undefined) {
-        const m = getMarginValue(marginHorizontal);
-        if (m) marginStyles.marginHorizontal = m;
-      }
-      if (marginVertical !== undefined) {
-        const m = getMarginValue(marginVertical);
-        if (m) marginStyles.marginVertical = m;
       }
     }
 
@@ -79,13 +60,7 @@ export const Divider = React.forwardRef<View, DividerProps>(
       ...marginStyles,
     };
 
-    return (
-      <View
-        ref={ref}
-        {...props}
-        style={[dividerStyle, style]}
-      />
-    );
+    return <View ref={ref} {...props} style={[dividerStyle, style]} />;
   }
 );
 

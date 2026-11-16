@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  ViewProps,
-  StyleSheet,
-  ViewStyle,
-  useSafeAreaInsets,
-} from 'react-native';
+import { View, ViewProps, StyleSheet, ViewStyle, useSafeAreaInsets } from 'react-native';
 import { mergeStyles } from '@/utils/styleUtils';
 
 export interface SafeAreaViewProps extends ViewProps {
@@ -66,11 +60,7 @@ export const SafeAreaView = React.forwardRef<View, SafeAreaViewProps>(
     ) as ViewStyle;
 
     return (
-      <View
-        ref={ref}
-        {...props}
-        style={containerStyle}
-      >
+      <View ref={ref} {...props} style={containerStyle}>
         {children}
       </View>
     );
