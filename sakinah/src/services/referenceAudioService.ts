@@ -54,7 +54,7 @@ export const referenceAudioService = {
   /**
    * Get reference audio from database
    */
-  private async getReferenceAudioFromDatabase(
+  async getReferenceAudioFromDatabase(
     surahNumber: number,
     verseNumber: number,
     readerId: string
@@ -81,7 +81,7 @@ export const referenceAudioService = {
    * Get reference audio from Quran.com public API
    * This provides a free fallback for all verses
    */
-  private async getReferenceAudioFromAPI(
+  async getReferenceAudioFromAPI(
     surahNumber: number,
     verseNumber: number,
     readerId: string
@@ -130,7 +130,7 @@ export const referenceAudioService = {
   /**
    * Map internal reader IDs to Quran.com recitation IDs
    */
-  private mapReaderToRecitationId(readerId: string): number {
+  mapReaderToRecitationId(readerId: string): number {
     const mapping: Record<string, number> = {
       abdul_basit_murattal: 1,
       al_minshawi_murattal: 2,
@@ -146,7 +146,7 @@ export const referenceAudioService = {
   /**
    * Get reader display name
    */
-  private getReaderName(readerId: string): string {
+  getReaderName(readerId: string): string {
     const names: Record<string, string> = {
       abdul_basit_murattal: 'Abdul Basit',
       al_minshawi_murattal: 'Al-Minshawi',
@@ -163,11 +163,11 @@ export const referenceAudioService = {
    * Get all available reference readers
    */
   async getAvailableReaders(): Promise<
-    Array<{
+    {
       id: string;
       name: string;
       description?: string;
-    }>
+    }[]
   > {
     try {
       const { data, error } = await supabase
@@ -190,11 +190,11 @@ export const referenceAudioService = {
   /**
    * Get default available readers
    */
-  private getDefaultReaders(): Array<{
+  getDefaultReaders(): {
     id: string;
     name: string;
     description?: string;
-  }> {
+  }[] {
     return [
       {
         id: this.defaultReaders.abdul_basit,
@@ -269,16 +269,16 @@ export const referenceAudioService = {
     verseStart: number,
     verseEnd: number
   ): Promise<
-    Array<{
+    {
       verse_number: number;
       arabic_text: string;
       english_translation?: string;
-      word_timings?: Array<{
+      word_timings?: {
         word: string;
         start_time: number;
         end_time: number;
-      }>;
-    }>
+      }[];
+    }[]
   > {
     try {
       const { data, error } = await supabase
@@ -305,14 +305,14 @@ export const referenceAudioService = {
    * Fallback Quranic text (for when database is unavailable)
    * This should be replaced with actual Quranic text
    */
-  private getFallbackQuranText(
+  getFallbackQuranText(
     surahNumber: number,
     verseStart: number,
     verseEnd: number
-  ): Array<{
+  ): {
     verse_number: number;
     arabic_text: string;
-  }> {
+  }[] {
     // This is a placeholder - in production, fetch from Quran.com API
     console.warn(
       'Using fallback Quranic text - implement proper Quran API integration'

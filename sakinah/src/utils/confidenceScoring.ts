@@ -348,14 +348,14 @@ export interface HumanReviewFlag {
  * Identify cases requiring human verification
  */
 export function flagInconclusiveCases(
-  findings: Array<{
+  findings: {
     type: string;
     confidence: number;
     severity: string;
     expected?: string;
     detected?: string;
     tajweed_rule?: { is_definitive?: boolean };
-  }>
+  }[]
 ): HumanReviewFlag[] {
   const flags: HumanReviewFlag[] = [];
 

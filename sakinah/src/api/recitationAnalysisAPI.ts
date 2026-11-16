@@ -211,11 +211,11 @@ export const recitationAnalysisAPI = {
    */
   async getAvailableReaders(): Promise<
     ApiResponse<
-      Array<{
+      {
         id: string;
         name: string;
         description?: string;
-      }>
+      }[]
     >
   > {
     try {

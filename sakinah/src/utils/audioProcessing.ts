@@ -259,9 +259,9 @@ export function detectVoiceActivity(
   zcr: number[],
   energyThreshold: number = 0.02,
   zcrThreshold: number = 0.1
-): Array<{ start: number; end: number }> {
+): { start: number; end: number }[] {
   const frameShift = 0.01; // 10ms
-  const voiceSegments: Array<{ start: number; end: number }> = [];
+  const voiceSegments: { start: number; end: number }[] = [];
 
   let isVoiceActive = false;
   let segmentStart = 0;

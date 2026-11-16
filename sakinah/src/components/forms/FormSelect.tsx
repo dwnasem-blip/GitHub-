@@ -58,8 +58,8 @@ export const FormSelect = React.forwardRef<View, FormSelectProps>(
               </View>
               <FlatList data={options} keyExtractor={(item) => String(item.value)} scrollEnabled renderItem={({ item }) => (
                 <Pressable style={styles.optionItem} onPress={() => handleSelectOption(item.value)}>
-                  {selectedOption?.value === item.value && (<Text color="accent" weight="bold" style={{ marginRight: themeObj.spacing[2] }}>✓</Text>)}
-                  <Text size="base" color={selectedOption?.value === item.value ? 'accent' : 'primary'} weight={selectedOption?.value === item.value ? 'semibold' : 'normal'} flex={1}>{item.label}</Text>
+                  {selectedOption?.value === item.value && (<Text weight="bold" customColor={themeObj.colors.semantic.text.primary} style={{ marginRight: themeObj.spacing[2] }}>✓</Text>)}
+                  <Text size="base" customColor={selectedOption?.value === item.value ? themeObj.colors.semantic.text.primary : themeObj.colors.semantic.text.secondary} weight={selectedOption?.value === item.value ? 'semibold' : 'normal'} flex={1}>{item.label}</Text>
                 </Pressable>
               )} />
             </Pressable>

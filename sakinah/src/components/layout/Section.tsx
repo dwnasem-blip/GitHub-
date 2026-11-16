@@ -23,7 +23,7 @@ export const Section = React.forwardRef<View, SectionProps>(
   ({ title, subtitle, padding, gap = 3, divider = false, bordered = false, backgroundColor, rtl = false, style, children, ...props }, ref) => {
     const { theme: themeObj } = useTheme();
     const getPaddingValue = (p?: keyof typeof themeObj.spacing | number): number | undefined => (p === undefined ? undefined : typeof p === 'number' ? p : themeObj.spacing[p]);
-    const paddingStyles: ViewStyle = {};
+    const paddingStyles: any = {};
     if (padding !== undefined) { const p = getPaddingValue(padding); if (p) { paddingStyles.paddingHorizontal = p; paddingStyles.paddingVertical = p; } }
     const gapValue = typeof gap === 'number' ? gap : themeObj.spacing[gap];
     const containerStyle = mergeStyles(styles.base, paddingStyles, { gap: gapValue, ...(bordered && { borderWidth: 1, borderColor: themeObj.colors.semantic.border.light, borderRadius: themeObj.radius.lg }), ...(backgroundColor && { backgroundColor }) }, style) as ViewStyle;

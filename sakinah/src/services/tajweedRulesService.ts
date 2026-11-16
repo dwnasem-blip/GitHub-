@@ -6,10 +6,7 @@ let rulesCache: TajweedRule[] | null = null;
 let cacheTimestamp: number = 0;
 const CACHE_DURATION: number = 1000 * 60 * 60; // 1 hour
 
-/**
- * Get default Tajweed rules (from reliable Islamic sources)
- */
-function getDefaultTajweedRules(): TajweedRule[] {
+const getDefaultTajweedRules = (): TajweedRule[] => {
   return [
     // Elongation Rules
     {
@@ -170,12 +167,9 @@ function getDefaultTajweedRules(): TajweedRule[] {
       category: 'pausing',
     },
   ];
-}
+};
 
-/**
- * Initialize default rules in the database if table is empty
- */
-async function initializeDefaultRules(): Promise<TajweedRule[]> {
+const initializeDefaultRules = async (): Promise<TajweedRule[]> => {
   const defaultRules = getDefaultTajweedRules();
 
   try {
@@ -198,7 +192,7 @@ async function initializeDefaultRules(): Promise<TajweedRule[]> {
     console.error('Exception initializing Tajweed rules:', error);
     return defaultRules;
   }
-}
+};
 
 /**
  * Tajweed Rules Service - Manages Quranic Tajweed rules database

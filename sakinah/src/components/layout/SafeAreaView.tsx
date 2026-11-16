@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, ViewProps, StyleSheet, ViewStyle, useSafeAreaInsets } from 'react-native';
+import { View, ViewProps, StyleSheet, ViewStyle } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { mergeStyles } from '@/utils/styleUtils';
 
 export interface SafeAreaViewProps extends ViewProps {
@@ -32,7 +33,7 @@ export const SafeAreaView = React.forwardRef<View, SafeAreaViewProps>(
     ref
   ) => {
     const insets = useSafeAreaInsets();
-    const safeAreaStyle: ViewStyle = {};
+    const safeAreaStyle: any = {};
 
     if (paddingHorizontal) {
       safeAreaStyle.paddingLeft = customPaddingHorizontal || insets.left;

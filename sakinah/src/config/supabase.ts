@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+// @ts-ignore
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 

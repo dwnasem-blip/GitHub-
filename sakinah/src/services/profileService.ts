@@ -1,6 +1,8 @@
 import { Profile } from '@/types';
 import { databaseService, UpdateProfileInput } from './databaseService';
 
+import { supabase } from '@/config/supabase';
+
 export const profileService = {
   async getProfile() {
     return databaseService.getProfile();
@@ -25,5 +27,3 @@ export const profileService = {
     return data.publicUrl;
   },
 };
-
-import { supabase } from '@/config/supabase';

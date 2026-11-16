@@ -71,7 +71,7 @@ export const reportGenerationService = {
   /**
    * Calculate statistics from findings
    */
-  private calculateStatistics(
+  calculateStatistics(
     findings: RecitationFinding[],
     totalWords: number
   ) {
@@ -101,8 +101,14 @@ export const reportGenerationService = {
   /**
    * Generate Arabic summary
    */
-  private generateArabicSummary(
-    stats: ReturnType<typeof this.calculateStatistics>,
+  generateArabicSummary(
+    stats: {
+      confirmed_errors: number;
+      probable_errors: number;
+      inconclusive_errors: number;
+      words_with_issues: number;
+      accuracy_percentage: number;
+    },
     surahName: string
   ): string {
     const accuracy = Math.round(stats.accuracy_percentage);
@@ -129,8 +135,14 @@ export const reportGenerationService = {
   /**
    * Generate English summary
    */
-  private generateEnglishSummary(
-    stats: ReturnType<typeof this.calculateStatistics>,
+  generateEnglishSummary(
+    stats: {
+      confirmed_errors: number;
+      probable_errors: number;
+      inconclusive_errors: number;
+      words_with_issues: number;
+      accuracy_percentage: number;
+    },
     surahName: string
   ): string {
     const accuracy = Math.round(stats.accuracy_percentage);
@@ -157,9 +169,15 @@ export const reportGenerationService = {
   /**
    * Generate Arabic recommendations
    */
-  private generateArabicRecommendations(
+  generateArabicRecommendations(
     findings: RecitationFinding[],
-    stats: ReturnType<typeof this.calculateStatistics>
+    stats: {
+      confirmed_errors: number;
+      probable_errors: number;
+      inconclusive_errors: number;
+      words_with_issues: number;
+      accuracy_percentage: number;
+    }
   ): string[] {
     const recommendations: string[] = [];
 
@@ -211,9 +229,15 @@ export const reportGenerationService = {
   /**
    * Generate English recommendations
    */
-  private generateEnglishRecommendations(
+  generateEnglishRecommendations(
     findings: RecitationFinding[],
-    stats: ReturnType<typeof this.calculateStatistics>
+    stats: {
+      confirmed_errors: number;
+      probable_errors: number;
+      inconclusive_errors: number;
+      words_with_issues: number;
+      accuracy_percentage: number;
+    }
   ): string[] {
     const recommendations: string[] = [];
 
@@ -263,7 +287,7 @@ export const reportGenerationService = {
   /**
    * Count findings by type
    */
-  private countByType(findings: RecitationFinding[]): Record<string, number> {
+  countByType(findings: RecitationFinding[]): Record<string, number> {
     const counts: Record<string, number> = {};
 
     for (const finding of findings) {
@@ -276,7 +300,7 @@ export const reportGenerationService = {
   /**
    * Count findings by Tajweed rule
    */
-  private countByTajweedRule(
+  countByTajweedRule(
     findings: RecitationFinding[]
   ): Record<string, number> {
     const counts: Record<string, number> = {};
@@ -294,7 +318,7 @@ export const reportGenerationService = {
   /**
    * Calculate performance metrics
    */
-  private calculatePerformanceMetrics(
+  calculatePerformanceMetrics(
     findings: RecitationFinding[],
     totalWords: number
   ) {

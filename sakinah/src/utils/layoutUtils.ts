@@ -41,7 +41,7 @@ export const createFlexLayout = (
   justify: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' = 'flex-start',
   options: LayoutOptions = {}
 ): ViewStyle => {
-  const style: ViewStyle = {
+  const style: any = {
     flexDirection: direction,
     alignItems: align,
     justifyContent: justify,
@@ -63,7 +63,7 @@ export const createSafeAreaPadding = (
   bottomPadding?: keyof typeof theme.spacing | number,
   sidePadding?: keyof typeof theme.spacing | number
 ): ViewStyle => {
-  const style: ViewStyle = {};
+  const style: any = {};
 
   if (topPadding) {
     const value = typeof topPadding === 'number' ? topPadding : theme.spacing[topPadding];
@@ -224,5 +224,5 @@ export const createModalContent = (): ViewStyle => ({
   backgroundColor: theme.colors.semantic.background.primary,
   borderRadius: theme.radius.lg,
   overflow: 'hidden',
-  ...theme.shadows.lg,
+  ...(theme.shadows.lg as any),
 });

@@ -23,7 +23,7 @@ export interface DetectedWord {
  */
 export function detectWordBoundaries(
   audioFeatures: AudioFeatures,
-  voiceSegments: Array<{ start: number; end: number }>,
+  voiceSegments: { start: number; end: number }[],
   minWordDuration: number = 0.2 // 200ms minimum word duration
 ): DetectedWord[] {
   const detectedWords: DetectedWord[] = [];
@@ -165,7 +165,7 @@ export function compareWithQuranic(
   quranicVerses: QuranicVerse[]
 ): WordComparisonResult[] {
   const comparisons: WordComparisonResult[] = [];
-  const allQuranicWords: Array<QuranicWord & { verse_number: number }> = [];
+  const allQuranicWords: (QuranicWord & { verse_number: number })[] = [];
 
   // Collect all Quranic words
   for (const verse of quranicVerses) {

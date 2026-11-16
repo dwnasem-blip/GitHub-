@@ -42,11 +42,11 @@ interface UseRecitationReviewActions {
   }) => Promise<{ audioUrl: string; reader: string; source: string } | null>;
   getTajweedRules: () => Promise<TajweedRule[]>;
   getAvailableReaders: () => Promise<
-    Array<{
+    {
       id: string;
       name: string;
       description?: string;
-    }> | null
+    }[] | null
   >;
   getAnalysisStatus: (
     analysisId: string
@@ -287,11 +287,11 @@ export const useRecitationReview = (): UseRecitationReviewState &
 
   const getAvailableReaders = useCallback(
     async (): Promise<
-      Array<{
+      {
         id: string;
         name: string;
         description?: string;
-      }> | null
+      }[] | null
     > => {
       try {
         const response = await recitationAnalysisAPI.getAvailableReaders();

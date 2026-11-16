@@ -388,13 +388,7 @@ export interface AudioFeatures {
   duration: number;
 }
 
-// Recitation Review UI Types
-export type ErrorType = 'Makhraj' | 'Tajweed' | 'Timing' | 'Pronunciation' | 'Other';
-export type Severity = 'Error' | 'Probable' | 'Inconclusive';
-export type FindingType = 'All' | 'Makhraj' | 'Tajweed' | 'Timing' | 'Pronunciation';
-export type SortOption = 'timestamp' | 'severity' | 'confidence' | 'type';
-
-export interface TajweedRule {
+export interface TajweedRuleUI {
   id: string;
   name: string;
   name_ar: string;
