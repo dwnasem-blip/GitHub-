@@ -232,7 +232,7 @@ export const recitationReviewService = {
   /**
    * Format review data from database
    */
-  private formatReview(data: any): RecitationReview {
+  formatReview(data: any): RecitationReview {
     return {
       id: data.id,
       project_id: data.project_id,
@@ -262,7 +262,7 @@ export const recitationReviewService = {
   /**
    * Format finding data from database
    */
-  private formatFinding(data: any): RecitationFinding {
+  formatFinding(data: any): RecitationFinding {
     return {
       id: data.id,
       word_number: data.word_number,
