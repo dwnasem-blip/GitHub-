@@ -15,7 +15,7 @@ export default function RecordPage() {
       <ThemedView style={styles.container}>
         <SafeAreaView style={styles.content} edges={['bottom', 'left', 'right']}>
           <View style={styles.error}>
-            <Text>Project ID is required</Text>
+            <ThemedText>Project ID is required</ThemedText>
           </View>
         </SafeAreaView>
       </ThemedView>
