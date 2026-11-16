@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Text as RNText,
-  TextProps as RNTextProps,
-  StyleSheet,
-  TextStyle,
-} from 'react-native';
+import { Text as RNText, TextProps as RNTextProps, StyleSheet, TextStyle } from 'react-native';
 import { useTheme } from '@/theme/useTheme';
 import { theme } from '@/theme';
 
@@ -14,87 +9,32 @@ export interface TextProps extends RNTextProps {
   color?: 'primary' | 'secondary' | 'tertiary' | 'error' | 'success' | 'custom';
   customColor?: string;
   align?: 'auto' | 'left' | 'right' | 'center' | 'justify';
-  lineHeight?: 'tight' | 'snug' | 'normal' | 'relaxed' | 'loose';
   rtl?: boolean;
   style?: TextStyle;
+  flex?: number;
 }
 
-const styles = StyleSheet.create({
-  base: {
-    color: theme.colors.semantic.text.primary,
-  },
-});
+const styles = StyleSheet.create({ base: { color: theme.colors.semantic.text.primary } });
 
 export const Text = React.forwardRef<RNText, TextProps>(
-  (
-    {
-      size = 'base',
-      weight = 'normal',
-      color = 'primary',
-      customColor,
-      align = 'left',
-      lineHeight,
-      rtl = false,
-      style,
-      children,
-      ...props
-    },
-    ref
-  ) => {
+  ({ size = 'base', weight = 'normal', color = 'primary', customColor, align = 'left', rtl = false, style, flex, children, ...props }, ref) => {
     const { theme: themeObj } = useTheme();
-
     const getTextColor = (): string => {
       if (customColor) return customColor;
-
       switch (color) {
-        case 'primary':
-          return themeObj.colors.semantic.text.primary;
-        case 'secondary':
-          return themeObj.colors.semantic.text.secondary;
-        case 'tertiary':
-          return themeObj.colors.semantic.text.tertiary;
-        case 'error':
-          return themeObj.colors.status.error;
-        case 'success':
-          return themeObj.colors.status.success;
-        default:
-          return themeObj.colors.semantic.text.primary;
+        case 'primary': return themeObj.colors.semantic.text.primary;
+        case 'secondary': return themeObj.colors.semantic.text.secondary;
+        case 'tertiary': return themeObj.colors.semantic.text.tertiary;
+        case 'error': return themeObj.colors.status.error;
+        case 'success': return themeObj.colors.status.success;
+        default: return themeObj.colors.semantic.text.primary;
       }
     };
-
-    const getFontSize = (): number => {
-      return themeObj.typography.fontSize[size];
-    };
-
-    const getFontWeight = (): TextStyle['fontWeight'] => {
-      return themeObj.typography.fontWeight[weight];
-    };
-
-    const getLineHeight = (): number => {
-      if (lineHeight) {
-        return getFontSize() * themeObj.typography.lineHeight[lineHeight];
-      }
-      return getFontSize() * themeObj.typography.lineHeight.normal;
-    };
-
-    const computedStyle: TextStyle = {
-      color: getTextColor(),
-      fontSize: getFontSize(),
-      fontWeight: getFontWeight(),
-      lineHeight: getLineHeight(),
-      textAlign: rtl ? 'right' : align,
-    };
-
-    return (
-      <RNText
-        ref={ref}
-        {...props}
-        style={[styles.base, computedStyle, style]}
-      >
-        {children}
-      </RNText>
-    );
+    const fontSize = themeObj.typography.fontSize[size];
+    const fontWeight = themeObj.typography.fontWeight[weight];
+    const lineHeight = fontSize * themeObj.typography.lineHeight.normal;
+    const computedStyle: TextStyle = { color: getTextColor(), fontSize, fontWeight, lineHeight, textAlign: rtl ? 'right' : align, ...(flex && { flex }) };
+    return <RNText ref={ref} {...props} style={[styles.base, computedStyle, style]}>{children}</RNText>;
   }
 );
-
 Text.displayName = 'Text';
