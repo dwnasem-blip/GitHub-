@@ -1,26 +1,13 @@
 import React, { useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  Pressable,
-  I18nManager,
-} from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { View, StyleSheet, Pressable, Text } from 'react-native';
 import { colors } from '@/theme/colors';
 import { typography } from '@/theme/typography';
-import { spacing, radius, shadows } from '@/theme/spacing';
-import Text from '@/components/typography/Text';
-import { Finding, Severity } from '@/types';
+import { spacing, radius } from '@/theme/spacing';
+import { Finding } from '@/types';
 
 interface FindingCardProps {
   finding: Finding;
   isSelected: boolean;
-  index: number;
   onPress: () => void;
   onPlayOriginal: () => void;
   onPlayReference: () => void;
@@ -29,455 +16,134 @@ interface FindingCardProps {
 export const FindingCard: React.FC<FindingCardProps> = ({
   finding,
   isSelected,
-  index,
   onPress,
   onPlayOriginal,
   onPlayReference,
 }) => {
   const [expanded, setExpanded] = useState(isSelected);
-  const expandAnimation = useSharedValue(isSelected ? 1 : 0);
 
   const toggleExpand = () => {
-    const newExpanded = !expanded;
-    setExpanded(newExpanded);
-    expandAnimation.value = withTiming(newExpanded ? 1 : 0, {
-      duration: 250,
-      easing: Easing.inOut(Easing.ease),
-    });
+    setExpanded(!expanded);
     onPress();
   };
 
-  const expandedStyle = useAnimatedStyle(() => ({
-    opacity: 0.5 + expandAnimation.value * 0.5,
-  }));
-
-  const getSeverityColor = (severity: Severity): string => {
-    switch (severity) {
+  const getSeverityColor = () => {
+    switch (finding.severity) {
       case 'Error':
         return colors.gold.main;
       case 'Probable':
         return colors.status.warning;
-      case 'Inconclusive':
+      default:
         return colors.neutral[600];
-      default:
-        return colors.neutral[500];
-    }
-  };
-
-  const getSeverityBgColor = (severity: Severity): string => {
-    switch (severity) {
-      case 'Error':
-        return 'rgba(196, 169, 101, 0.15)';
-      case 'Probable':
-        return 'rgba(243, 156, 18, 0.15)';
-      case 'Inconclusive':
-        return 'rgba(107, 114, 128, 0.15)';
-      default:
-        return colors.semantic.background.tertiary;
-    }
-  };
-
-  const getErrorTypeIcon = (type: string): string => {
-    switch (type) {
-      case 'Makhraj':
-        return '📍';
-      case 'Tajweed':
-        return '🎯';
-      case 'Timing':
-        return '⏱';
-      case 'Pronunciation':
-        return '🗣';
-      default:
-        return '⚠';
     }
   };
 
   return (
-    <Pressable onPress={toggleExpand} style={styles.container}>
-      <Animated.View
-        style={[
-          styles.cardWrapper,
-          expandedStyle,
-          {
-            borderColor: getSeverityColor(finding.severity),
-          },
-        ]}
-      >
-        {/* Header Row */}
+    <Pressable onPress={toggleExpand}>
+      <View style={[styles.card, { borderColor: getSeverityColor() }]}>
         <View style={styles.header}>
-          <View style={styles.headerLeft}>
-            <View
-              style={[
-                styles.errorTypeBadge,
-                { backgroundColor: getSeverityBgColor(finding.severity) },
-              ]}
-            >
-              <Text style={styles.badgeIcon}>
-                {getErrorTypeIcon(finding.error_type)}
-              </Text>
-              <Text style={styles.badgeText}>{finding.error_type}</Text>
-            </View>
-
-            <View style={styles.wordContainer}>
-              <Text
-                style={[
-                  typography.styles.h6,
-                  { color: colors.semantic.text.primary },
-                ]}
-                numberOfLines={1}
-              >
-                {finding.arabic_word}
-              </Text>
-              <Text
-                style={[
-                  typography.styles.caption,
-                  { color: colors.semantic.text.secondary },
-                ]}
-              >
-                {finding.transliteration}
-              </Text>
-            </View>
+          <View>
+            <Text style={styles.arabicWord}>{finding.arabic_word}</Text>
+            <Text style={styles.transliteration}>{finding.transliteration}</Text>
           </View>
-
-          <View
-            style={[
-              styles.severityBadge,
-              {
-                backgroundColor: getSeverityColor(finding.severity),
-              },
-            ]}
-          >
-            <Text style={styles.severityText}>
-              {finding.severity.charAt(0)}
-            </Text>
-          </View>
+          <Text style={styles.errorType}>{finding.error_type}</Text>
         </View>
 
-        {/* Expected vs Detected */}
-        <View style={styles.comparisonContainer}>
-          <View style={styles.comparisonItem}>
-            <Text
-              style={[
-                typography.styles.caption,
-                { color: colors.semantic.text.tertiary },
-              ]}
-            >
-              Expected:
-            </Text>
-            <Text style={[typography.styles.body2, styles.correctWord]}>
-              {finding.expected_pronunciation}
-            </Text>
-          </View>
-
-          <View style={styles.comparisonItem}>
-            <Text
-              style={[
-                typography.styles.caption,
-                { color: colors.semantic.text.tertiary },
-              ]}
-            >
-              Detected:
-            </Text>
-            <Text style={[typography.styles.body2, styles.detectedWord]}>
-              {finding.detected_pronunciation}
-            </Text>
-          </View>
-        </View>
-
-        {/* Confidence Score */}
-        <View style={styles.confidenceContainer}>
-          <Text
-            style={[
-              typography.styles.caption,
-              { color: colors.semantic.text.tertiary },
-            ]}
-          >
-            Confidence:
-          </Text>
-          <View style={styles.confidenceBar}>
-            <View
-              style={[
-                styles.confidenceFill,
-                {
-                  width: `${finding.confidence * 100}%`,
-                  backgroundColor:
-                    finding.confidence > 0.8
-                      ? colors.status.success
-                      : finding.confidence > 0.6
-                      ? colors.status.warning
-                      : colors.status.error,
-                },
-              ]}
-            />
-          </View>
-          <Text style={[typography.styles.caption, styles.confidenceText]}>
-            {(finding.confidence * 100).toFixed(0)}%
-          </Text>
-        </View>
-
-        {/* Description (Expanded) */}
         {expanded && (
-          <>
-            <View style={styles.divider} />
+          <View style={styles.details}>
+            <Text style={styles.expected}>Expected: {finding.expected_pronunciation}</Text>
+            <Text style={styles.detected}>Detected: {finding.detected_pronunciation}</Text>
+            <Text style={styles.confidence}>Confidence: {(finding.confidence * 100).toFixed(0)}%</Text>
+            <Text style={styles.description}>{finding.description_en}</Text>
 
-            <View style={styles.descriptionSection}>
-              <Text
-                style={[
-                  typography.styles.subtitle2,
-                  { color: colors.semantic.text.primary },
-                ]}
-              >
-                Description
-              </Text>
-
-              {/* Arabic Description */}
-              <View style={styles.descriptionItem}>
-                <Text
-                  style={[
-                    typography.styles.caption,
-                    { color: colors.semantic.text.tertiary },
-                  ]}
-                >
-                  Arabic:
-                </Text>
-                <Text
-                  style={[
-                    typography.styles.body2,
-                    { color: colors.semantic.text.secondary },
-                  ]}
-                >
-                  {finding.description_ar}
-                </Text>
-              </View>
-
-              {/* English Description */}
-              <View style={styles.descriptionItem}>
-                <Text
-                  style={[
-                    typography.styles.caption,
-                    { color: colors.semantic.text.tertiary },
-                  ]}
-                >
-                  English:
-                </Text>
-                <Text
-                  style={[
-                    typography.styles.body2,
-                    { color: colors.semantic.text.secondary },
-                  ]}
-                >
-                  {finding.description_en}
-                </Text>
-              </View>
-            </View>
-
-            {/* Tajweed Info (if applicable) */}
-            {finding.tajweed_rule && (
-              <>
-                <View style={styles.divider} />
-                <View style={styles.tajweedSection}>
-                  <Text
-                    style={[
-                      typography.styles.subtitle2,
-                      { color: colors.semantic.text.primary },
-                    ]}
-                  >
-                    Tajweed Rule
-                  </Text>
-                  <Text
-                    style={[
-                      typography.styles.body2,
-                      { color: colors.accent.light },
-                    ]}
-                  >
-                    {finding.tajweed_rule.name}
-                  </Text>
-                  <Text
-                    style={[
-                      typography.styles.caption,
-                      { color: colors.semantic.text.secondary },
-                      { marginTop: spacing[1] },
-                    ]}
-                  >
-                    {finding.tajweed_rule.description}
-                  </Text>
-                </View>
-              </>
-            )}
-
-            {/* Action Buttons */}
-            <View style={styles.actionButtons}>
-              <Pressable
-                style={[styles.button, styles.primaryButton]}
-                onPress={onPlayOriginal}
-              >
-                <Text style={styles.buttonText}>▶ User Audio</Text>
+            <View style={styles.buttons}>
+              <Pressable style={styles.btn} onPress={onPlayOriginal}>
+                <Text style={styles.btnText}>▶ User</Text>
               </Pressable>
-              <Pressable
-                style={[styles.button, styles.secondaryButton]}
-                onPress={onPlayReference}
-              >
-                <Text style={styles.buttonText}>▶ Reference</Text>
+              <Pressable style={[styles.btn, styles.btnSecondary]} onPress={onPlayReference}>
+                <Text style={styles.btnText}>▶ Reference</Text>
               </Pressable>
             </View>
-          </>
-        )}
-
-        {/* Collapsed indicator */}
-        {!expanded && (
-          <View style={styles.expandIndicator}>
-            <Text style={{ color: colors.semantic.text.tertiary }}>↓</Text>
           </View>
         )}
-      </Animated.View>
+      </View>
     </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginBottom: spacing[4],
-  },
-  cardWrapper: {
+  card: {
     backgroundColor: colors.semantic.background.secondary,
     borderRadius: radius.lg,
     borderWidth: 2,
-    paddingHorizontal: spacing[4],
-    paddingVertical: spacing[4],
-    ...shadows.md,
+    padding: spacing[4],
+    marginBottom: spacing[3],
   },
   header: {
-    flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing[4],
   },
-  headerLeft: {
-    flex: 1,
-    flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
-    alignItems: 'center',
-    gap: spacing[3],
+  arabicWord: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.semantic.text.primary,
   },
-  errorTypeBadge: {
-    flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
-    alignItems: 'center',
+  transliteration: {
+    fontSize: 12,
+    color: colors.semantic.text.secondary,
+    marginTop: spacing[1],
+  },
+  errorType: {
+    fontSize: 14,
+    color: colors.semantic.text.secondary,
     paddingHorizontal: spacing[2],
     paddingVertical: spacing[1],
-    borderRadius: radius.md,
-    gap: spacing[1],
-  },
-  badgeIcon: {
-    fontSize: typography.fontSize.lg,
-  },
-  badgeText: {
-    ...typography.styles.caption,
-    color: colors.semantic.text.primary,
-    fontWeight: '600',
-  },
-  wordContainer: {
-    flex: 1,
-  },
-  severityBadge: {
-    width: spacing[8],
-    height: spacing[8],
-    borderRadius: radius.full,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  severityText: {
-    ...typography.styles.h6,
-    color: colors.semantic.text.primary,
-    fontWeight: 'bold',
-  },
-  comparisonContainer: {
     backgroundColor: colors.semantic.background.tertiary,
     borderRadius: radius.md,
-    paddingHorizontal: spacing[3],
-    paddingVertical: spacing[3],
-    marginBottom: spacing[4],
+  },
+  details: {
+    marginTop: spacing[4],
     gap: spacing[2],
   },
-  comparisonItem: {
-    flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  correctWord: {
+  expected: {
     color: colors.status.success,
-    fontWeight: '600',
+    fontSize: 14,
   },
-  detectedWord: {
+  detected: {
     color: colors.gold.main,
-    fontWeight: '600',
+    fontSize: 14,
   },
-  confidenceContainer: {
-    marginBottom: spacing[4],
-    gap: spacing[2],
-  },
-  confidenceBar: {
-    height: spacing[2],
-    backgroundColor: colors.semantic.background.tertiary,
-    borderRadius: radius.full,
-    overflow: 'hidden',
-  },
-  confidenceFill: {
-    height: '100%',
-    borderRadius: radius.full,
-  },
-  confidenceText: {
+  confidence: {
     color: colors.semantic.text.secondary,
-    textAlign: 'right',
+    fontSize: 12,
   },
-  divider: {
-    height: 1,
-    backgroundColor: colors.semantic.border.light,
-    marginVertical: spacing[4],
+  description: {
+    color: colors.semantic.text.secondary,
+    fontSize: 13,
+    marginTop: spacing[2],
   },
-  descriptionSection: {
-    marginBottom: spacing[4],
-    gap: spacing[3],
-  },
-  descriptionItem: {
+  buttons: {
+    flexDirection: 'row',
     gap: spacing[2],
+    marginTop: spacing[3],
   },
-  tajweedSection: {
-    backgroundColor: colors.semantic.background.tertiary,
-    borderLeftWidth: 3,
-    borderLeftColor: colors.accent.main,
-    paddingHorizontal: spacing[3],
-    paddingVertical: spacing[3],
-    borderRadius: radius.md,
-    marginBottom: spacing[4],
-    gap: spacing[2],
-  },
-  actionButtons: {
-    flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
-    gap: spacing[3],
-  },
-  button: {
+  btn: {
     flex: 1,
-    paddingHorizontal: spacing[3],
-    paddingVertical: spacing[3],
+    backgroundColor: colors.accent.main,
+    paddingVertical: spacing[2],
     borderRadius: radius.md,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  primaryButton: {
-    backgroundColor: colors.accent.main,
-  },
-  secondaryButton: {
+  btnSecondary: {
     backgroundColor: colors.semantic.background.tertiary,
     borderWidth: 1,
     borderColor: colors.semantic.border.main,
   },
-  buttonText: {
-    ...typography.styles.button,
+  btnText: {
     color: colors.semantic.text.primary,
     fontWeight: '600',
-  },
-  expandIndicator: {
-    marginTop: spacing[2],
-    alignItems: 'center',
   },
 });
 
