@@ -9,37 +9,15 @@ export default function AudioLayout() {
   return (
     <Stack
       screenOptions={{
-        headerStyle: {
-          backgroundColor: theme.background,
-        },
+        headerStyle: { backgroundColor: theme.background },
         headerTintColor: theme.text,
-        headerTitleStyle: {
-          fontWeight: '600',
-        },
+        headerTitleStyle: { fontWeight: '600' },
         headerShadowVisible: false,
       }}
     >
-      <Stack.Screen
-        name="upload"
-        options={{
-          title: t('audio.upload', 'Upload Audio'),
-          headerShown: true,
-        }}
-      />
-      <Stack.Screen
-        name="record"
-        options={{
-          title: t('audio.record', 'Record Audio'),
-          headerShown: true,
-        }}
-      />
-      <Stack.Screen
-        name="list"
-        options={{
-          title: t('audio.list', 'Audio Files'),
-          headerShown: true,
-        }}
-      />
+      <Stack.Screen name="upload" options={{ title: t('audio.upload') }} />
+      <Stack.Screen name="record" options={{ title: t('audio.record') }} />
+      <Stack.Screen name="list" options={{ title: t('audio.list') }} />
     </Stack>
   );
 }
