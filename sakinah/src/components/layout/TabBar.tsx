@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  ViewProps,
-  StyleSheet,
-  ViewStyle,
-  Pressable,
-  PressableProps,
-} from 'react-native';
+import { View, ViewProps, StyleSheet, ViewStyle, Pressable, PressableProps } from 'react-native';
 import { useTheme } from '@/theme/useTheme';
 import { theme } from '@/theme';
 import { Text } from '../typography/Text';
@@ -44,22 +37,6 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing[2],
     gap: theme.spacing[1],
   },
-  itemContent: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: theme.spacing[1],
-  },
-  badge: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    backgroundColor: theme.colors.status.error,
-    borderRadius: theme.radius.full,
-    minWidth: 20,
-    minHeight: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
 });
 
 export const TabBar = React.forwardRef<View, TabBarProps>(
@@ -87,11 +64,7 @@ export const TabBar = React.forwardRef<View, TabBarProps>(
     ) as ViewStyle;
 
     return (
-      <View
-        ref={ref}
-        {...props}
-        style={containerStyle}
-      >
+      <View ref={ref} {...props} style={containerStyle}>
         {children}
       </View>
     );
@@ -126,38 +99,10 @@ export const TabBarItem = React.forwardRef<Pressable, TabBarItemProps>(
     ) as ViewStyle;
 
     return (
-      <Pressable
-        ref={ref}
-        {...props}
-        style={({ pressed }) => [
-          itemStyle,
-          pressed && { opacity: 0.5 },
-        ]}
-      >
-        <View style={[styles.itemContent, { flexDirection: rtl ? 'row-reverse' : 'row' }]}>
-          {icon && (
-            <View style={{ position: 'relative' }}>
-              {icon}
-              {badge && (
-                <View style={styles.badge}>
-                  <Text
-                    size="xs"
-                    color="primary"
-                    weight="bold"
-                  >
-                    {badge}
-                  </Text>
-                </View>
-              )}
-            </View>
-          )}
-          <Text
-            size="sm"
-            weight={active ? 'semibold' : 'normal'}
-            color={active ? 'primary' : 'secondary'}
-            align="center"
-            rtl={rtl}
-          >
+      <Pressable ref={ref} {...props} style={({ pressed }) => [itemStyle, pressed && { opacity: 0.5 }]}>
+        <View style={{ flexDirection: rtl ? 'row-reverse' : 'row', alignItems: 'center', gap: themeObj.spacing[1] }}>
+          {icon && <View>{icon}</View>}
+          <Text size="sm" weight={active ? 'semibold' : 'normal'} color={active ? 'primary' : 'secondary'}>
             {label}
           </Text>
         </View>

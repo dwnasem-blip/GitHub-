@@ -1,16 +1,9 @@
 import React from 'react';
-import {
-  TextInput,
-  View,
-  Text,
-  TextInputProps,
-  StyleSheet,
-  useColorScheme,
-  ViewStyle,
-  TextStyle,
-} from 'react-native';
-import { Colors, Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
+import { TextInput, View, TextInputProps, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { useTheme } from '@/theme/useTheme';
+import { theme } from '@/theme';
+import { Text } from '../typography/Text';
+import { mergeStyles } from '@/utils/styleUtils';
 
 export interface FormInputProps extends TextInputProps {
   label?: string;
@@ -25,155 +18,36 @@ export interface FormInputProps extends TextInputProps {
   rightIcon?: React.ReactNode;
 }
 
+const styles = StyleSheet.create({
+  container: { marginBottom: theme.spacing[3] },
+  label: { marginBottom: theme.spacing[1] },
+  inputWrapper: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderRadius: theme.radius.md, paddingVertical: theme.spacing[2], paddingHorizontal: theme.spacing[2], minHeight: 48 },
+  input: { flex: 1, fontSize: theme.typography.fontSize.base, paddingVertical: theme.spacing[2] },
+  iconWrapper: { justifyContent: 'center', alignItems: 'center', width: 24, height: 24 },
+  errorText: { marginTop: theme.spacing[1] },
+  helperText: { marginTop: theme.spacing[1] },
+});
+
 export const FormInput = React.forwardRef<TextInput, FormInputProps>(
-  (
-    {
-      label,
-      error,
-      helperText,
-      rtl = false,
-      containerStyle,
-      inputStyle,
-      required = false,
-      disabled = false,
-      icon,
-      rightIcon,
-      style,
-      placeholderTextColor,
-      editable,
-      ...props
-    },
-    ref
-  ) => {
-    const colorScheme = useColorScheme();
-    const theme = useTheme();
-    const isDark = colorScheme === 'dark';
-
-    const textAlign = rtl ? 'right' : 'left';
-    const paddingLeft = rtl ? Spacing.three : icon ? Spacing.four + Spacing.three : Spacing.three;
-    const paddingRight = rtl ? (icon ? Spacing.four + Spacing.three : Spacing.three) : Spacing.three;
-
+  ({ label, error, helperText, rtl = false, containerStyle, inputStyle, required = false, disabled = false, icon, rightIcon, style, placeholderTextColor, editable, ...props }, ref) => {
+    const { theme: themeObj } = useTheme();
+    const paddingLeft = rtl ? 0 : icon ? themeObj.spacing[4] : themeObj.spacing[2];
+    const paddingRight = rtl ? (icon ? themeObj.spacing[4] : themeObj.spacing[2]) : 0;
+    const inputWrapperStyle = mergeStyles(styles.inputWrapper, { backgroundColor: themeObj.colors.semantic.background.tertiary, borderColor: error ? themeObj.colors.status.error : themeObj.colors.semantic.border.light, opacity: disabled ? 0.6 : 1 }, containerStyle) as ViewStyle;
+    const computedInputStyle = mergeStyles(styles.input, { color: themeObj.colors.semantic.text.primary, textAlign: rtl ? 'right' : 'left', paddingLeft, paddingRight }, inputStyle, style) as TextStyle;
     return (
-      <View style={[styles.container, containerStyle]}>
-        {label && (
-          <Text
-            style={[
-              styles.label,
-              {
-                color: isDark ? Colors.dark.text : Colors.light.text,
-                textAlign: rtl ? 'right' : 'left',
-              },
-            ]}
-          >
-            {label}
-            {required && <Text style={{ color: '#ef4444' }}> *</Text>}
-          </Text>
-        )}
-
-        <View
-          style={[
-            styles.inputWrapper,
-            {
-              backgroundColor: isDark ? Colors.dark.backgroundElement : Colors.light.backgroundElement,
-              borderColor: error ? '#ef4444' : isDark ? Colors.dark.backgroundSelected : Colors.light.backgroundSelected,
-              opacity: disabled ? 0.6 : 1,
-            },
-          ]}
-        >
-          {icon && <View style={[styles.icon, { left: rtl ? undefined : Spacing.two }]}>{icon}</View>}
-
-          <TextInput
-            ref={ref}
-            style={[
-              styles.input,
-              {
-                color: isDark ? Colors.dark.text : Colors.light.text,
-                paddingLeft,
-                paddingRight,
-                textAlign,
-              },
-              inputStyle,
-              style,
-            ]}
-            placeholderTextColor={placeholderTextColor || (isDark ? Colors.dark.textSecondary : Colors.light.textSecondary)}
-            editable={editable !== false && !disabled}
-            selectTextOnFocus={!disabled}
-            {...props}
-          />
-
-          {rightIcon && <View style={[styles.icon, { right: rtl ? undefined : Spacing.two }]}>{rightIcon}</View>}
+      <View style={styles.container}>
+        {label && (<Text style={styles.label} size="sm" weight="semibold" color="primary" rtl={rtl}>{label}{required && <Text size="sm" weight="semibold" customColor={themeObj.colors.status.error}> *</Text>}</Text>)}
+        <View style={inputWrapperStyle}>
+          {icon && !rtl && <View style={styles.iconWrapper}>{icon}</View>}
+          <TextInput ref={ref} {...props} editable={editable !== false && !disabled} selectTextOnFocus={!disabled} placeholderTextColor={placeholderTextColor || themeObj.colors.semantic.text.tertiary} style={computedInputStyle} />
+          {rightIcon && <View style={styles.iconWrapper}>{rightIcon}</View>}
+          {icon && rtl && <View style={styles.iconWrapper}>{icon}</View>}
         </View>
-
-        {error && (
-          <Text
-            style={[
-              styles.errorText,
-              {
-                textAlign: rtl ? 'right' : 'left',
-              },
-            ]}
-          >
-            {error}
-          </Text>
-        )}
-
-        {helperText && !error && (
-          <Text
-            style={[
-              styles.helperText,
-              {
-                color: isDark ? Colors.dark.textSecondary : Colors.light.textSecondary,
-                textAlign: rtl ? 'right' : 'left',
-              },
-            ]}
-          >
-            {helperText}
-          </Text>
-        )}
+        {error && (<Text style={styles.errorText} size="xs" color="error" align={rtl ? 'right' : 'left'} rtl={rtl}>{error}</Text>)}
+        {helperText && !error && (<Text style={styles.helperText} size="xs" color="tertiary" align={rtl ? 'right' : 'left'} rtl={rtl}>{helperText}</Text>)}
       </View>
     );
   }
 );
-
 FormInput.displayName = 'FormInput';
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: Spacing.three,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: Spacing.one,
-  },
-  inputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingVertical: Spacing.two,
-    paddingHorizontal: Spacing.two,
-    minHeight: 48,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    paddingVertical: Spacing.two,
-  },
-  icon: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 24,
-    height: 24,
-  },
-  errorText: {
-    color: '#ef4444',
-    fontSize: 12,
-    marginTop: Spacing.one,
-    fontWeight: '500',
-  },
-  helperText: {
-    fontSize: 12,
-    marginTop: Spacing.one,
-  },
-});
