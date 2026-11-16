@@ -98,12 +98,9 @@ export const reportGenerationService = {
     };
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Generate Arabic summary
    */
->>>>>>> feature/quran-analysis-ui
   private generateArabicSummary(
     stats: ReturnType<typeof this.calculateStatistics>,
     surahName: string
@@ -111,11 +108,7 @@ export const reportGenerationService = {
     const accuracy = Math.round(stats.accuracy_percentage);
 
     if (accuracy === 100) {
-<<<<<<< HEAD
       return `تلاوة ممتازة للسورة ${surahName}! تم تحليل جميع الكلمات بشكل صحيح بدون أخطاء.`;
-=======
-      return `تلاوة ممتازة للسورة ${surahName}! تم تحليل ${stats.words_with_issues === 0 ? 'جميع الكلمات بشكل صحيح' : ''} بدون أخطاء.`;
->>>>>>> feature/quran-analysis-ui
     }
 
     if (accuracy >= 95) {
@@ -133,12 +126,9 @@ export const reportGenerationService = {
     return `تلاوة تحتاج لتحسين للسورة ${surahName} بدقة ${accuracy}%. يُنصح بالممارسة المكثفة والاستماع للتسجيلات المرجعية.`;
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Generate English summary
    */
->>>>>>> feature/quran-analysis-ui
   private generateEnglishSummary(
     stats: ReturnType<typeof this.calculateStatistics>,
     surahName: string
@@ -164,32 +154,23 @@ export const reportGenerationService = {
     return `Recitation of Surah ${surahName} needs improvement with ${accuracy}% accuracy. Intensive practice and listening to reference recordings is recommended.`;
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Generate Arabic recommendations
    */
->>>>>>> feature/quran-analysis-ui
   private generateArabicRecommendations(
     findings: RecitationFinding[],
     stats: ReturnType<typeof this.calculateStatistics>
   ): string[] {
     const recommendations: string[] = [];
 
-<<<<<<< HEAD
-=======
     // Find most common error types
->>>>>>> feature/quran-analysis-ui
     const errorTypeCounts = this.countByType(findings);
     const topErrors = Object.entries(errorTypeCounts)
       .sort(([, a], [, b]) => b - a)
       .slice(0, 2)
       .map(([type]) => type);
 
-<<<<<<< HEAD
-=======
     // Add recommendations based on error types
->>>>>>> feature/quran-analysis-ui
     if (topErrors.includes('pronunciation')) {
       recommendations.push(
         'استمع بانتباه للتسجيلات المرجعية لتحسين نطق الحروف'
@@ -212,56 +193,38 @@ export const reportGenerationService = {
       recommendations.push('اقرأ ببطء وتركيز على كل كلمة');
     }
 
-<<<<<<< HEAD
-=======
     // Add accuracy-based recommendations
->>>>>>> feature/quran-analysis-ui
     if (stats.accuracy_percentage < 80) {
       recommendations.push('من المهم الممارسة المنتظمة والمكثفة');
       recommendations.push('استشر معلماً مختصاً لتصحيح الأخطاء');
     }
 
-<<<<<<< HEAD
-=======
     // General recommendations
->>>>>>> feature/quran-analysis-ui
     if (recommendations.length < 3) {
       recommendations.push('استمع للقرآن الكريم بانتظام');
       recommendations.push('مارس التلاوة يومياً');
     }
 
-<<<<<<< HEAD
     return recommendations.slice(0, 5);
-  },
-
-=======
-    return recommendations.slice(0, 5); // Return up to 5 recommendations
   },
 
   /**
    * Generate English recommendations
    */
->>>>>>> feature/quran-analysis-ui
   private generateEnglishRecommendations(
     findings: RecitationFinding[],
     stats: ReturnType<typeof this.calculateStatistics>
   ): string[] {
     const recommendations: string[] = [];
 
-<<<<<<< HEAD
-=======
     // Find most common error types
->>>>>>> feature/quran-analysis-ui
     const errorTypeCounts = this.countByType(findings);
     const topErrors = Object.entries(errorTypeCounts)
       .sort(([, a], [, b]) => b - a)
       .slice(0, 2)
       .map(([type]) => type);
 
-<<<<<<< HEAD
-=======
     // Add recommendations based on error types
->>>>>>> feature/quran-analysis-ui
     if (topErrors.includes('pronunciation')) {
       recommendations.push('Listen carefully to reference recordings to improve letter pronunciation');
       recommendations.push('Focus on the correct articulation points of letters');
@@ -282,36 +245,24 @@ export const reportGenerationService = {
       recommendations.push('Read slowly and carefully, focusing on each word');
     }
 
-<<<<<<< HEAD
-=======
     // Add accuracy-based recommendations
->>>>>>> feature/quran-analysis-ui
     if (stats.accuracy_percentage < 80) {
       recommendations.push('Regular and intensive practice is essential');
       recommendations.push('Consider consulting a qualified teacher for guidance');
     }
 
-<<<<<<< HEAD
-=======
     // General recommendations
->>>>>>> feature/quran-analysis-ui
     if (recommendations.length < 3) {
       recommendations.push('Listen to the Quran regularly');
       recommendations.push('Practice recitation daily');
     }
 
-<<<<<<< HEAD
     return recommendations.slice(0, 5);
-  },
-
-=======
-    return recommendations.slice(0, 5); // Return up to 5 recommendations
   },
 
   /**
    * Count findings by type
    */
->>>>>>> feature/quran-analysis-ui
   private countByType(findings: RecitationFinding[]): Record<string, number> {
     const counts: Record<string, number> = {};
 
@@ -322,12 +273,9 @@ export const reportGenerationService = {
     return counts;
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Count findings by Tajweed rule
    */
->>>>>>> feature/quran-analysis-ui
   private countByTajweedRule(
     findings: RecitationFinding[]
   ): Record<string, number> {
@@ -343,20 +291,14 @@ export const reportGenerationService = {
     return counts;
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Calculate performance metrics
    */
->>>>>>> feature/quran-analysis-ui
   private calculatePerformanceMetrics(
     findings: RecitationFinding[],
     totalWords: number
   ) {
-<<<<<<< HEAD
-=======
     // Calculate clarity (based on pronunciation and articulation issues)
->>>>>>> feature/quran-analysis-ui
     const pronunciationIssues = findings.filter(
       (f) =>
         f.type === 'pronunciation' && f.severity === 'error'
@@ -366,10 +308,7 @@ export const reportGenerationService = {
       100 - (pronunciationIssues / (totalWords || 1)) * 100
     );
 
-<<<<<<< HEAD
-=======
     // Calculate accuracy (based on word matching)
->>>>>>> feature/quran-analysis-ui
     const wordIssues = findings.filter(
       (f) =>
         f.type === 'missing_word' ||
@@ -381,10 +320,7 @@ export const reportGenerationService = {
       100 - (wordIssues / (totalWords || 1)) * 100
     );
 
-<<<<<<< HEAD
-=======
     // Calculate Tajweed application (based on Tajweed issues)
->>>>>>> feature/quran-analysis-ui
     const tajweedIssues = findings.filter(
       (f) => f.type === 'tajweed'
     ).length;
@@ -400,12 +336,9 @@ export const reportGenerationService = {
     };
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Generate a text summary of key findings
    */
->>>>>>> feature/quran-analysis-ui
   generateFindingsSummary(
     findings: RecitationFinding[],
     language: 'ar' | 'en'
@@ -441,22 +374,16 @@ export const reportGenerationService = {
     return parts.join(', ');
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Export report as JSON
    */
->>>>>>> feature/quran-analysis-ui
   exportReportAsJSON(report: ReviewReport): string {
     return JSON.stringify(report, null, 2);
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Export report as CSV (for spreadsheet applications)
    */
->>>>>>> feature/quran-analysis-ui
   exportReportAsCSV(
     findings: RecitationFinding[],
     report: ReviewReport

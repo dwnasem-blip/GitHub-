@@ -11,18 +11,12 @@ import { reportGenerationService } from '@/services/reportGenerationService';
 
 /**
  * Recitation Analysis API - Main interface for recitation analysis operations
-<<<<<<< HEAD
-=======
  * Provides high-level operations for analyzing Quranic recitations
->>>>>>> feature/quran-analysis-ui
  */
 export const recitationAnalysisAPI = {
   /**
    * Analyze a recitation recording
-<<<<<<< HEAD
-=======
    * This is the main entry point for the analysis workflow
->>>>>>> feature/quran-analysis-ui
    */
   async analyzeRecitation(params: {
     projectId: string;
@@ -38,15 +32,10 @@ export const recitationAnalysisAPI = {
     language: 'ar' | 'en';
   }): Promise<ApiResponse<RecitationReview>> {
     try {
-<<<<<<< HEAD
-      this.validateAnalysisInput(params);
-
-=======
       // Validate input
       this.validateAnalysisInput(params);
 
       // Create a new recitation review record
->>>>>>> feature/quran-analysis-ui
       const review = await recitationReviewService.createRecitationReview({
         project_id: params.projectId,
         audio_file_id: params.audioFileId,
@@ -60,11 +49,8 @@ export const recitationAnalysisAPI = {
       });
 
       try {
-<<<<<<< HEAD
-=======
         // Simulate analysis workflow (replace with actual audio processing)
         // For now, we'll create a placeholder analysis
->>>>>>> feature/quran-analysis-ui
         const analysisResults = await this.performAnalysis(
           {
             audioUrl: params.audioUrl,
@@ -75,10 +61,7 @@ export const recitationAnalysisAPI = {
           params.confidenceThreshold || 0.6
         );
 
-<<<<<<< HEAD
-=======
         // Generate report
->>>>>>> feature/quran-analysis-ui
         const report = reportGenerationService.generateReport({
           findings: analysisResults.findings,
           total_words: analysisResults.total_words,
@@ -87,10 +70,7 @@ export const recitationAnalysisAPI = {
           language: params.language,
         });
 
-<<<<<<< HEAD
-=======
         // Update review with analysis results
->>>>>>> feature/quran-analysis-ui
         const updatedReview =
           await recitationReviewService.updateReviewWithAnalysis(review.id, {
             findings: analysisResults.findings,
@@ -106,10 +86,7 @@ export const recitationAnalysisAPI = {
           message: 'Recitation analyzed successfully',
         };
       } catch (analysisError) {
-<<<<<<< HEAD
-=======
         // Mark review as failed if analysis fails
->>>>>>> feature/quran-analysis-ui
         await recitationReviewService.markReviewFailed(
           review.id,
           analysisError instanceof Error
@@ -130,12 +107,9 @@ export const recitationAnalysisAPI = {
     }
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Get recitation review by ID
    */
->>>>>>> feature/quran-analysis-ui
   async getRecitationReview(id: string): Promise<ApiResponse<RecitationReview>> {
     try {
       const review = await recitationReviewService.getRecitationReview(id);
@@ -152,12 +126,9 @@ export const recitationAnalysisAPI = {
     }
   },
 
-<<<<<<< HEAD
-=======
   /**
    * List recitation reviews for a project
    */
->>>>>>> feature/quran-analysis-ui
   async listRecitationReviews(
     projectId: string
   ): Promise<ApiResponse<RecitationReview[]>> {
@@ -177,12 +148,9 @@ export const recitationAnalysisAPI = {
     }
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Get reference audio for a specific word
    */
->>>>>>> feature/quran-analysis-ui
   async getReferenceAudio(params: {
     surahNumber: number;
     verseNumber: number;
@@ -196,7 +164,12 @@ export const recitationAnalysisAPI = {
     }>
   > {
     try {
-      const audio = await referenceAudioService.getReferenceAudio(params);
+      const audio = await referenceAudioService.getReferenceAudio({
+        surah_number: params.surahNumber,
+        verse_number: params.verseNumber,
+        word_number: params.wordNumber,
+        reader_id: params.readerId,
+      });
       return {
         success: true,
         data: audio,
@@ -212,12 +185,9 @@ export const recitationAnalysisAPI = {
     }
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Get available Tajweed rules
    */
->>>>>>> feature/quran-analysis-ui
   async getTajweedRules(): Promise<ApiResponse<TajweedRule[]>> {
     try {
       const rules = await tajweedRulesService.getTajweedRules();
@@ -236,12 +206,9 @@ export const recitationAnalysisAPI = {
     }
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Get available reference readers
    */
->>>>>>> feature/quran-analysis-ui
   async getAvailableReaders(): Promise<
     ApiResponse<
       Array<{
@@ -266,12 +233,9 @@ export const recitationAnalysisAPI = {
     }
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Delete a recitation review
    */
->>>>>>> feature/quran-analysis-ui
   async deleteRecitationReview(id: string): Promise<
     ApiResponse<{
       message: string;
@@ -294,13 +258,7 @@ export const recitationAnalysisAPI = {
     }
   },
 
-<<<<<<< HEAD
-=======
-  /**
-   * Validate analysis input
-   */
->>>>>>> feature/quran-analysis-ui
-  private validateAnalysisInput(params: {
+  validateAnalysisInput(params: {
     projectId: string;
     audioFileId: string;
     audioUrl: string;
@@ -350,14 +308,11 @@ export const recitationAnalysisAPI = {
     }
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Perform the actual analysis (placeholder implementation)
    * This should be replaced with actual audio processing logic
    */
->>>>>>> feature/quran-analysis-ui
-  private async performAnalysis(
+  async performAnalysis(
     params: {
       audioUrl: string;
       surahNumber: number;
@@ -370,19 +325,6 @@ export const recitationAnalysisAPI = {
     overall_confidence: number;
     total_words: number;
   }> {
-<<<<<<< HEAD
-    console.log('Performing analysis on audio:', params.audioUrl);
-
-    const findings: RecitationFinding[] = [];
-
-    return {
-      findings,
-      overall_confidence: 1.0,
-      total_words: 50,
-    };
-  },
-
-=======
     // This is a placeholder implementation
     // In production, this would process the actual audio and perform acoustic analysis
 
@@ -405,7 +347,6 @@ export const recitationAnalysisAPI = {
   /**
    * Get analysis status (for async operations)
    */
->>>>>>> feature/quran-analysis-ui
   async getAnalysisStatus(analysisId: string): Promise<
     ApiResponse<{
       status: 'analyzing' | 'completed' | 'failed';
@@ -432,11 +373,7 @@ export const recitationAnalysisAPI = {
           findings: review.findings,
           error:
             review.status === 'failed'
-<<<<<<< HEAD
               ? (review.final_report as any)?.error
-=======
-              ? review.final_report?.error
->>>>>>> feature/quran-analysis-ui
               : undefined,
         },
       };
@@ -451,12 +388,9 @@ export const recitationAnalysisAPI = {
     }
   },
 
-<<<<<<< HEAD
-=======
   /**
    * Export analysis as report
    */
->>>>>>> feature/quran-analysis-ui
   async exportAnalysisReport(
     reviewId: string,
     format: 'json' | 'csv' = 'json'
