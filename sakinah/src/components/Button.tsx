@@ -1,152 +1,186 @@
 import React from 'react';
 import {
-  TouchableOpacity,
-  Text,
+  Pressable,
   StyleSheet,
-  useColorScheme,
   ViewStyle,
   TextStyle,
+  PressableProps,
+  View,
   ActivityIndicator,
 } from 'react-native';
-import { Colors, Spacing } from '@/constants/theme';
-import { colors } from '@/theme/colors';
+import { Text } from './typography/Text';
+import { useTheme } from '@/theme/useTheme';
+import { theme } from '@/theme';
+import { mergeStyles, getShadowStyles } from '@/utils/styleUtils';
 
-export interface ButtonProps {
-  label: string;
-  onPress: () => void;
-  variant?: 'primary' | 'secondary' | 'outline' | 'danger';
+export interface ButtonProps extends Omit<PressableProps, 'style'> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   loading?: boolean;
-  style?: ViewStyle;
-  labelStyle?: TextStyle;
-  fullWidth?: boolean;
+  label: string;
+  icon?: React.ReactNode;
   rtl?: boolean;
+  style?: ViewStyle;
+  textStyle?: TextStyle;
+  fullWidth?: boolean;
 }
 
-export const Button: React.FC<ButtonProps> = ({
-  label,
-  onPress,
-  variant = 'primary',
-  size = 'md',
-  disabled = false,
-  loading = false,
-  style,
-  labelStyle,
-  fullWidth = false,
-  rtl = false,
-}) => {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
-
-  const getBackgroundColor = () => {
-    if (disabled) {
-      return isDark ? Colors.dark.backgroundSelected : Colors.light.backgroundSelected;
-    }
-
-    switch (variant) {
-      case 'primary':
-        return colors.accent.main;
-      case 'secondary':
-        return colors.primary.light;
-      case 'outline':
-        return 'transparent';
-      case 'danger':
-        return '#ef4444';
-      default:
-        return colors.accent.main;
-    }
-  };
-
-  const getBorderColor = () => {
-    if (variant === 'outline') {
-      return disabled ? Colors.dark.textSecondary : colors.accent.main;
-    }
-    return 'transparent';
-  };
-
-  const getTextColor = () => {
-    if (variant === 'outline') {
-      return colors.accent.main;
-    }
-    return '#ffffff';
-  };
-
-  const getSizeStyles = (): { paddingVertical: number; paddingHorizontal: number; minHeight: number } => {
-    switch (size) {
-      case 'sm':
-        return {
-          paddingVertical: Spacing.one,
-          paddingHorizontal: Spacing.two,
-          minHeight: 36,
-        };
-      case 'lg':
-        return {
-          paddingVertical: Spacing.two,
-          paddingHorizontal: Spacing.four,
-          minHeight: 56,
-        };
-      case 'md':
-      default:
-        return {
-          paddingVertical: Spacing.two,
-          paddingHorizontal: Spacing.three,
-          minHeight: 48,
-        };
-    }
-  };
-
-  const sizeStyles = getSizeStyles();
-
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      disabled={disabled || loading}
-      activeOpacity={0.7}
-      style={[
-        styles.button,
-        {
-          backgroundColor: getBackgroundColor(),
-          borderColor: getBorderColor(),
-          borderWidth: variant === 'outline' ? 1.5 : 0,
-          paddingVertical: sizeStyles.paddingVertical,
-          paddingHorizontal: sizeStyles.paddingHorizontal,
-          minHeight: sizeStyles.minHeight,
-          width: fullWidth ? '100%' : 'auto',
-          opacity: disabled && !loading ? 0.6 : 1,
-        },
-        style,
-      ]}
-    >
-      {loading ? (
-        <ActivityIndicator color={getTextColor()} size="small" />
-      ) : (
-        <Text
-          style={[
-            styles.label,
-            {
-              color: getTextColor(),
-              textAlign: 'center',
-            },
-            labelStyle,
-          ]}
-        >
-          {label}
-        </Text>
-      )}
-    </TouchableOpacity>
-  );
-};
-
 const styles = StyleSheet.create({
-  button: {
+  base: {
+    borderRadius: theme.radius.md,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
     flexDirection: 'row',
+    gap: theme.spacing[2],
   },
-  label: {
-    fontSize: 16,
-    fontWeight: '600',
+  // Sizes
+  sm: {
+    paddingVertical: theme.spacing[2],
+    paddingHorizontal: theme.spacing[3],
+    minHeight: 32,
+  },
+  md: {
+    paddingVertical: theme.spacing[3],
+    paddingHorizontal: theme.spacing[4],
+    minHeight: 44,
+  },
+  lg: {
+    paddingVertical: theme.spacing[4],
+    paddingHorizontal: theme.spacing[6],
+    minHeight: 56,
+  },
+  // Variants
+  primaryBase: {
+    backgroundColor: theme.colors.accent.main,
+  },
+  secondaryBase: {
+    backgroundColor: theme.colors.neutral[700],
+  },
+  outlineBase: {
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: theme.colors.accent.main,
+  },
+  ghostBase: {
+    backgroundColor: 'transparent',
+  },
+  // Disabled state
+  disabled: {
+    opacity: 0.5,
+  },
+  fullWidth: {
+    width: '100%',
+  },
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing[2],
   },
 });
+
+export const Button = React.forwardRef<Pressable, ButtonProps>(
+  (
+    {
+      variant = 'primary',
+      size = 'md',
+      disabled = false,
+      loading = false,
+      label,
+      icon,
+      rtl = false,
+      style,
+      textStyle,
+      fullWidth = false,
+      ...rest
+    },
+    ref
+  ) => {
+    const { theme: themeObj } = useTheme();
+
+    const getVariantStyles = (): ViewStyle => {
+      switch (variant) {
+        case 'primary':
+          return styles.primaryBase;
+        case 'secondary':
+          return styles.secondaryBase;
+        case 'outline':
+          return styles.outlineBase;
+        case 'ghost':
+          return styles.ghostBase;
+        default:
+          return styles.primaryBase;
+      }
+    };
+
+    const getSizeStyles = (): ViewStyle => {
+      switch (size) {
+        case 'sm':
+          return styles.sm;
+        case 'md':
+          return styles.md;
+        case 'lg':
+          return styles.lg;
+        default:
+          return styles.md;
+      }
+    };
+
+    const getTextColor = (): string => {
+      if (variant === 'outline' || variant === 'ghost') {
+        return themeObj.colors.accent.main;
+      }
+      return themeObj.colors.semantic.text.primary;
+    };
+
+    const containerStyle = mergeStyles(
+      styles.base,
+      getSizeStyles(),
+      getVariantStyles(),
+      disabled && styles.disabled,
+      fullWidth && styles.fullWidth,
+      getShadowStyles(size === 'lg' ? 'md' : 'sm'),
+      style
+    ) as ViewStyle;
+
+    const textStyleComputed = mergeStyles(
+      {
+        color: getTextColor(),
+      },
+      textStyle
+    ) as TextStyle;
+
+    const contentStyle = mergeStyles({
+      flexDirection: rtl ? 'row-reverse' : 'row',
+    }) as ViewStyle;
+
+    return (
+      <Pressable
+        ref={ref}
+        {...rest}
+        disabled={disabled || loading}
+        style={({ pressed }) => [
+          containerStyle,
+          pressed && { opacity: 0.7 },
+        ]}
+      >
+        <View style={contentStyle}>
+          {loading ? (
+            <ActivityIndicator color={getTextColor()} size={size === 'sm' ? 'small' : 'large'} />
+          ) : (
+            icon && icon
+          )}
+          <Text
+            style={textStyleComputed}
+            weight="semibold"
+            size={size === 'sm' ? 'sm' : 'base'}
+          >
+            {label}
+          </Text>
+        </View>
+      </Pressable>
+    );
+  }
+);
+
+Button.displayName = 'Button';
