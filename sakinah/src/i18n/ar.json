@@ -47,24 +47,58 @@
     "processing": "قيد المعالجة",
     "completed": "مكتمل",
     "failed": "فشل",
-    "deleteConfirm": "هل أنت متأكد من حذف هذا المشروع؟",
+    "deleteConfirm": "حذف المشروع؟",
+    "deleteMsg": "هل أنت متأكد من حذف",
+    "deleteError": "فشل حذف المشروع",
     "projectName": "اسم المشروع",
     "projectDescription": "وصف المشروع",
     "createdAt": "تاريخ الإنشاء",
-    "updatedAt": "آخر تحديث"
+    "updatedAt": "آخر تحديث",
+    "title": "العنوان",
+    "description": "الوصف",
+    "noDescription": "لا يوجد وصف",
+    "status": "الحالة",
+    "created": "تم الإنشاء",
+    "updated": "تم التحديث",
+    "titlePlaceholder": "أدخل عنوان المشروع",
+    "descriptionPlaceholder": "أدخل وصف المشروع (اختياري)",
+    "createInfo": "يمكنك تعديل تفاصيل مشروعك في أي وقت"
   },
   "audio": {
     "title": "التسجيل الصوتي",
     "upload": "رفع ملف صوتي",
     "record": "تسجيل مباشر",
+    "list": "الملفات الصوتية",
     "selectFile": "اختر ملف صوتي",
+    "changeFile": "تغيير الملف",
     "duration": "المدة",
     "size": "الحجم",
     "uploading": "جاري الرفع...",
     "uploadSuccess": "تم رفع الملف بنجاح",
     "uploadError": "خطأ في رفع الملف",
     "supportedFormats": "الصيغ المدعومة: MP3, M4A, WAV",
-    "maxFileSize": "الحد الأقصى للملف: 500 MB"
+    "maxFileSize": "الحد الأقصى للملف: 500 MB",
+    "startRecording": "ابدأ التسجيل",
+    "stop": "إيقاف",
+    "pause": "إيقاف مؤقت",
+    "resume": "استئناف",
+    "recordAgain": "تسجيل جديد",
+    "recordingInfo": "اضغط ابدأ لبدء التسجيل. سيتم تسجيل صوتك من خلال الميكروفون.",
+    "recordingState": {
+      "idle": "جاهز للتسجيل",
+      "recording": "جاري التسجيل...",
+      "paused": "متوقف مؤقتاً",
+      "stopped": "تم إيقاف التسجيل"
+    },
+    "play": "تشغيل",
+    "deleteConfirm": "حذف الملف الصوتي",
+    "deleteMessage": "هل أنت متأكد من حذف هذا الملف الصوتي؟",
+    "deleteSuccess": "تم حذف الملف الصوتي بنجاح",
+    "deleteError": "فشل حذف الملف الصوتي",
+    "playError": "فشل تشغيل الملف الصوتي",
+    "noFiles": "لا توجد ملفات صوتية",
+    "noRecording": "لم يتم العثور على تسجيل",
+    "stopRecordingFirst": "يرجى إيقاف التسجيل أولاً"
   },
   "analysis": {
     "title": "تحليل التلاوة",
@@ -159,6 +193,7 @@
   },
   "profile": {
     "title": "الملف الشخصي",
+    "myProfile": "ملفي الشخصي",
     "settings": "الإعدادات",
     "language": "اللغة",
     "theme": "المظهر",
@@ -168,7 +203,17 @@
     "deleteAccount": "حذف الحساب",
     "changePassword": "تغيير كلمة المرور",
     "personalInfo": "المعلومات الشخصية",
-    "accountInfo": "معلومات الحساب"
+    "accountInfo": "معلومات الحساب",
+    "bio": "السيرة الذاتية",
+    "bioPlaceholder": "أخبرنا عن نفسك",
+    "email": "البريد الإلكتروني",
+    "noName": "لا يوجد اسم",
+    "noBio": "لا توجد سيرة ذاتية",
+    "joinedDate": "تاريخ الانضمام"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "language": "اللغة"
   },
   "common": {
     "loading": "جاري التحميل...",
@@ -192,6 +237,7 @@
     "about": "عن التطبيق",
     "termsOfService": "شروط الخدمة",
     "privacyPolicy": "سياسة الخصوصية",
-    "contactUs": "تواصل معنا"
+    "contactUs": "تواصل معنا",
+    "refresh": "تحديث"
   }
 }

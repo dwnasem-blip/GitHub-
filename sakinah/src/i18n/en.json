@@ -47,24 +47,58 @@
     "processing": "Processing",
     "completed": "Completed",
     "failed": "Failed",
-    "deleteConfirm": "Are you sure you want to delete this project?",
+    "deleteConfirm": "Delete Project?",
+    "deleteMsg": "Are you sure you want to delete",
+    "deleteError": "Failed to delete project",
     "projectName": "Project Name",
     "projectDescription": "Project Description",
     "createdAt": "Created",
-    "updatedAt": "Updated"
+    "updatedAt": "Updated",
+    "title": "Title",
+    "description": "Description",
+    "noDescription": "No description provided",
+    "status": "Status",
+    "created": "Created",
+    "updated": "Updated",
+    "titlePlaceholder": "Enter project title",
+    "descriptionPlaceholder": "Enter project description (optional)",
+    "createInfo": "You can edit your project details anytime"
   },
   "audio": {
     "title": "Audio Recording",
     "upload": "Upload Audio File",
     "record": "Record Live",
+    "list": "Audio Files",
     "selectFile": "Select an audio file",
+    "changeFile": "Change File",
     "duration": "Duration",
     "size": "Size",
     "uploading": "Uploading...",
     "uploadSuccess": "File uploaded successfully",
     "uploadError": "Error uploading file",
     "supportedFormats": "Supported formats: MP3, M4A, WAV",
-    "maxFileSize": "Maximum file size: 500 MB"
+    "maxFileSize": "Maximum file size: 500 MB",
+    "startRecording": "Start Recording",
+    "stop": "Stop",
+    "pause": "Pause",
+    "resume": "Resume",
+    "recordAgain": "Record Again",
+    "recordingInfo": "Press start to begin recording. The microphone will capture your voice.",
+    "recordingState": {
+      "idle": "Ready to record",
+      "recording": "Recording...",
+      "paused": "Paused",
+      "stopped": "Recording stopped"
+    },
+    "play": "Play",
+    "deleteConfirm": "Delete Audio",
+    "deleteMessage": "Are you sure you want to delete this audio file?",
+    "deleteSuccess": "Audio file deleted successfully",
+    "deleteError": "Failed to delete audio file",
+    "playError": "Failed to play audio",
+    "noFiles": "No audio files yet",
+    "noRecording": "No recording found",
+    "stopRecordingFirst": "Please stop the recording first"
   },
   "analysis": {
     "title": "Recitation Analysis",
@@ -159,6 +193,7 @@
   },
   "profile": {
     "title": "Profile",
+    "myProfile": "My Profile",
     "settings": "Settings",
     "language": "Language",
     "theme": "Theme",
@@ -168,7 +203,17 @@
     "deleteAccount": "Delete Account",
     "changePassword": "Change Password",
     "personalInfo": "Personal Information",
-    "accountInfo": "Account Information"
+    "accountInfo": "Account Information",
+    "bio": "Bio",
+    "bioPlaceholder": "Tell us about yourself",
+    "email": "Email",
+    "noName": "No name provided",
+    "noBio": "No bio provided",
+    "joinedDate": "Joined Date"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language"
   },
   "common": {
     "loading": "Loading...",
@@ -192,6 +237,7 @@
     "about": "About",
     "termsOfService": "Terms of Service",
     "privacyPolicy": "Privacy Policy",
-    "contactUs": "Contact Us"
+    "contactUs": "Contact Us",
+    "refresh": "Refresh"
   }
 }
